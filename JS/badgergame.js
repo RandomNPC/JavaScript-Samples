@@ -58,7 +58,7 @@ function setWhere(evt){
 //adds a badger to the array of badgers to draw
 function addBadger(e){
 	if(atBadgerScene){
-		if (e.keyCode == 66){
+		if (e.keyCode == 66){ // 66 is the magic number that maps to the B key
 			if(numBadgers >= 12){
 				numBadgers = 0;
 				atBadgerScene = false;
