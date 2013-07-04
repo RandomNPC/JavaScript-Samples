@@ -12,19 +12,19 @@ var badgerIM = new Image();
 var mushroomIM = new Image();
 var snakeIM = new Image();
 var BGIM = new Image();
-badgerIM.src = "badgers.png";
-mushroomIM.src = "shroom.png";
-snakeIM.src = "snake.png";
-BGIM.src = "background.jpeg";
+badgerIM.src = "Pics/badgers.png";
+mushroomIM.src = "Pics/shroom.png";
+snakeIM.src = "Pics/snake.png";
+BGIM.src = "Pics/background.jpeg";
 
 //audio
 var mainTheme = new Audio();
 var badgerTom = new Array();
-badgerTom[0] = new Audio("Badger 1.wav");
-badgerTom[1] = new Audio("Badger 2.wav");
-badgerTom[2] = new Audio("Badger 3.wav");
-var shroomMike = new Audio("Mushroom.wav");
-var snakuYirong = new Audio("Snake.wav");
+badgerTom[0] = new Audio("Sounds/Tom/Badger 1.wav");
+badgerTom[1] = new Audio("Sounds/Tom/Badger 2.wav");
+badgerTom[2] = new Audio("Sounds/Tom/Badger 3.wav");
+var shroomMike = new Audio("Sounds/Michial/Mushroom.wav");
+var snakuYirong = new Audio("Sounds/Yirong/Snake.wav");
 
 
 //badger data
