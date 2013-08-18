@@ -6,5 +6,11 @@ window.onload=function() {
 
 	ballPic=document.getElementById('ball'); // Pulls the pic from the page
 
+	setInterval(gameLoop, 24);
+}
+
+function gameLoop() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
+
 	ctx.drawImage(ballPic, 8, 2); // Draws to the canvas
 }
