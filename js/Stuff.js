@@ -1,0 +1,2 @@
+// JavaScript goes in this
+
