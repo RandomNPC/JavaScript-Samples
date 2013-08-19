@@ -1,4 +1,4 @@
-//		Sprite Object
+﻿//		Sprite Object
 
 
 var Sprite=function(id) {
@@ -17,8 +17,8 @@ var Sprite=function(id) {
 
 
 	this.draw=function(ctx) {
-		if(ctx==undefined) { console.log('Error: Context not passed'); return; }
-		if(this.id==null) { console.log('Error: Sprite not initialized'); return; }
+		if(ctx==undefined) throw ('Context not passed');
+		if(this.id==null) throw ('Sprite not initialized');
 
 		ctx.drawImage(
 			this.img,	// Image source
