@@ -31,6 +31,8 @@ var Sprite=function(id) {
 
 	this._frame=0;			// < Current frame of an animation
 	this._frameCount=0;	// < Number of frames in an animation
+	this._alt=0;			// < Alternate views [different angles]
+	this._altCount=0;
 
 	this._lastSheetPos={ u: 0, v: 0 };
 
@@ -55,6 +57,17 @@ var Sprite=function(id) {
 	this.drawAni=function(ctx) {
 		if(!this.idle) this.step();
 		this.draw(ctx);
+	}
+
+	// Face the sprite in a direction
+	this.face=function(x, y) {
+		/*
+			I want to make the sprite face a certain direction
+				with this function.  1st I need a way to test it.
+
+			After making a mouse & keyboard event listener, I
+				will get back to this.
+		*/
 	}
 
 	// This steps in the animation
@@ -86,6 +99,9 @@ var Sprite=function(id) {
 
 		this._frame=0;
 		this._frameCount=Math.floor(this.img.width/this.sizeX);
+
+		this._alt=0;
+		this._altCount=Math.floor(this.img.height/this.sizeY);
 	}
 
 
