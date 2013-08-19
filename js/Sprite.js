@@ -42,7 +42,6 @@ var Sprite=function(id) {
 		if(ctx==undefined) throw ('Context not passed');
 		if(this.id==null) throw ('Sprite not initialized');
 
-		this._lastSheetPos=this._getSheetPos();
 
 		if(!this.hide) ctx.drawImage(
 			this.img,	// Image source
@@ -55,6 +54,7 @@ var Sprite=function(id) {
 
 	// Draws & steps the animation if applicable [commonly done]
 	this.drawAni=function(ctx) {
+		this._lastSheetPos=this._getSheetPos();
 		if(!this.idle) this.step();
 		this.draw(ctx);
 	}
