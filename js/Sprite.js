@@ -22,6 +22,8 @@ var Sprite=function(id) {
 
 		ctx.drawImage(
 			this.img,	// Image source
+			0, 0,    	// Offset in sprite sheet [which tile to draw]
+			128, 128,	// Tile size
 			50, 20,  	// Position to place it
 			100, 200 	// Size to scale it to
 		);
