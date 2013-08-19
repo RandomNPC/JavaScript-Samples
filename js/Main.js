@@ -19,19 +19,6 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	tankBody.draw(ctx);
 
 
-	setInterval(function() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		tankBody.face(mouse.x, mouse.y);
-		tankBody.drawAni(ctx);
-	}, 42)
-
-	/*
-		In this example, the tank will constantly face the mouse
-			cursor.  All it took was the tankBody.face() call.
-
-		View the web page to see it.
-	*/
-
 
 	canvas.onmouseup=function() { // On click
 
