@@ -16,4 +16,19 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	tankBody.x=64;
 	tankBody.y=90;
 	tankBody.draw(ctx);
+
+
+	setInterval(function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		tankBody.drawAni(ctx);
+	}, 42);
+
+	/*
+		With the crap ton of code in Sprite.js, we can now do
+			fancy things with few lines of code here.  I simply
+			defined the tank above, then called drawAni() on
+			the tank body.
+
+		Take a look at the web page to see it run.
+	*/
 };
