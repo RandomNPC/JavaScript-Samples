@@ -12,5 +12,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	ctx=canvas.getContext('2d');
 
 	tankBody=new Sprite('tankBody');
+	tankBody.x=64;
+	tankBody.y=90;
 	tankBody.draw(ctx);
 };

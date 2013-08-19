@@ -23,13 +23,9 @@ var Sprite=function(id) {
 		ctx.drawImage(
 			this.img,	// Image source
 			0, 0,    	// Offset in sprite sheet [which tile to draw]
-			128, 128,	// Tile size
-			50, 20,  	// Position to place it
-			100, 200 	// Size to scale it to
+			this.sizeX, this.sizeY,	// Tile size
+			Math.round(this.x)-this.midX, Math.round(this.y)-this.midY,  	// Position to place it
+			this.sizeX, this.sizeY 	// Size to scale it to
 		);
 	}
-
-	/*
-		Make sure to view the web page as you follow along each step
-	*/
 }
