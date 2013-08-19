@@ -29,6 +29,9 @@ var Sprite=function(id) {
 	this.pause=false;
 	this.idle=false;
 
+	this._frame=0;			// < Current frame of an animation
+	this._frameCount=0;	// < Number of frames in an animation
+
 
 	this.draw=function(ctx) {
 		if(ctx==undefined) throw ('Context not passed');
@@ -41,5 +44,24 @@ var Sprite=function(id) {
 			Math.round(this.x)-this.midX, Math.round(this.y)-this.midY,  	// Position to place it
 			this.sizeX, this.sizeY 	// Size to scale it to
 		);
+	}
+
+	// This steps in the animation
+	this.step=function() {
+		var step=false; // Whether to step in the animation
+
+		if(this.loop) { // In looped mode, always step
+			step=true;
+		} else { // In non-looped, only step if not the end of the animation
+			if(!this.isEnd()) step=true;
+		}
+
+		if(step) {
+			if(this.reverse) { // In reverse, if (frame<0), restart animation
+				if((--this._frame)<0) this._frame=this._frameCount-1;
+			} else { // Normally, if (frameCount<frame), restart animation
+				if(this._frameCount<=(++this._frame)) this._frame=0;
+			}
+		}
 	}
 }
