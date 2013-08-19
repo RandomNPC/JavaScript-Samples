@@ -61,13 +61,6 @@ var Sprite=function(id) {
 
 	// Face the sprite in a direction
 	this.face=function(x, y) {
-		/*
-			I want to make the sprite face a certain direction
-				with this function.  1st I need a way to test it.
-
-			After making a mouse & keyboard event listener, I
-				will get back to this.
-		*/
 	}
 
 	// This steps in the animation
