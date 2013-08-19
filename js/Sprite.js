@@ -22,14 +22,12 @@ var Sprite=function(id) {
 
 		ctx.drawImage(
 			this.img,	// Image source
-			50, 20		// Position to place it
+			50, 20,  	// Position to place it
+			100, 200 	// Size to scale it to
 		);
 	}
 
 	/*
-		Notice the variables sizeX.  That is the size of a sprite
-			from my sprite sheet.  If you view the web page, you will
-			see a bunch of tanks, each slightly different from each
-			other.
+		Make sure to view the web page as you follow along each step
 	*/
 }
