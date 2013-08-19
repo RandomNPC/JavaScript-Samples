@@ -64,4 +64,25 @@ var Sprite=function(id) {
 			}
 		}
 	}
+
+	// Sets the size of the tiles & calculates how many frames there are
+	this.setTileSize=function(sizeX, sizeY) {
+		this.sizeX=sizeX;
+		this.sizeY=sizeY;
+
+		this.midX=this.sizeX/2;
+		this.midY=this.sizeY/2;
+
+		this._frame=0;
+		this._frameCount=Math.floor(this.img.width/this.sizeX);
+	}
+
+
+	// Returns the position in the sprite sheet to load
+	//		the sprite from.  It has 2 parts:
+	//		 u = Frame of the animation [laid out horizantal]
+	//		 v = Alternate angles [laid out vertical]
+	this._getSheetPos=function() {
+		return { u: this.sizeX*this._frame, v: 0 };
+	}
 }
