@@ -32,18 +32,29 @@ var Sprite=function(id) {
 	this._frame=0;			// < Current frame of an animation
 	this._frameCount=0;	// < Number of frames in an animation
 
+	this._lastSheetPos={ u: 0, v: 0 };
 
+
+	// Draws to canvas only
 	this.draw=function(ctx) {
 		if(ctx==undefined) throw ('Context not passed');
 		if(this.id==null) throw ('Sprite not initialized');
 
+		this._lastSheetPos=this._getSheetPos();
+
 		if(!this.hide) ctx.drawImage(
 			this.img,	// Image source
-			0, 0,    	// Offset in sprite sheet [which tile to draw]
+			this._lastSheetPos.u, this._lastSheetPos.v,    	// Offset in sprite sheet [which tile to draw]
 			this.sizeX, this.sizeY,	// Tile size
 			Math.round(this.x)-this.midX, Math.round(this.y)-this.midY,  	// Position to place it
 			this.sizeX, this.sizeY 	// Size to scale it to
 		);
+	}
+
+	// Draws & steps the animation if applicable [commonly done]
+	this.drawAni=function(ctx) {
+		if(!this.idle) this.step();
+		this.draw(ctx);
 	}
 
 	// This steps in the animation
