@@ -61,6 +61,15 @@ var Sprite=function(id) {
 
 	// Face the sprite in a direction
 	this.face=function(x, y) {
+		var cx=this.x-x;
+		var cy=this.y-y;
+
+		this._alt=this._getAngleIndex(x, y);
+
+		// Future feature: Smooth turn
+		// Return true when turn completes & false if still turning
+
+		return true;
 	}
 
 	// This steps in the animation
@@ -98,11 +107,34 @@ var Sprite=function(id) {
 	}
 
 
+
+	// Return an index from the angle
+	this._getAngleIndex=function(u, v) {
+		if(u==0&&v==0) return this._alt;
+
+		var x, y, r;
+
+		x=u-this.x;
+		y=this.y-v;
+
+		if(y==0) {
+			r=Math.PI/2;
+			if(x<0) r+=Math.PI;
+		} else {
+			r=Math.atan(x/y);
+			if(y<0) r+=Math.PI;
+		}
+
+		r+=Math.PI*2; // Prevents negative values
+
+		return Math.round(r/(Math.PI*2/this._altCount))%this._altCount;
+	}
+
 	// Returns the position in the sprite sheet to load
 	//		the sprite from.  It has 2 parts:
 	//		 u = Frame of the animation [laid out horizantal]
 	//		 v = Alternate angles [laid out vertical]
 	this._getSheetPos=function() {
-		return { u: this.sizeX*this._frame, v: 0 };
+		return { u: this.sizeX*this._frame, v: this.sizeY*this._alt };
 	}
 }
