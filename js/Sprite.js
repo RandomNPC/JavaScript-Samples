@@ -91,6 +91,19 @@ var Sprite=function(id) {
 		}
 	}
 
+	// True if the animation is not looped & the end is reached
+	this.isEnd=function() {
+		if(!this.loop) {
+			if(this.reverse) {
+				if(this._frame==0) return true;
+			} else {
+				if(this._frame+1==this._frameCount) return true;
+			}
+		}
+		return false;
+	}
+
+
 	// Sets the size of the tiles & calculates how many frames there are
 	this.setTileSize=function(sizeX, sizeY) {
 		this.sizeX=sizeX;
