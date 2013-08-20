@@ -8,6 +8,7 @@ var Sprite=function(id) {
 	this.x=0;	// Position of the sprite in the world
 	this.y=0;
 	this.vel=1;	// Velocity at which the sprite moves
+	this.angVel=Math.PI/16; // Radians per frame of rotation
 
 	this.sizeX=128; // Tile horizontal length [default: 128px]
 	this.sizeY=128; // Tile vertical length
@@ -33,6 +34,7 @@ var Sprite=function(id) {
 	this._frameCount=0;	// < Number of frames in an animation
 	this._alt=0;			// < Alternate views [different angles]
 	this._altCount=0;
+	this._ang=0;
 
 	this._lastSheetPos={ u: 0, v: 0 };
 
@@ -76,11 +78,47 @@ var Sprite=function(id) {
 			destAng+=Math.PI*3/2; // Prevents negative values
 			destAng%=Math.PI*2;
 
+			this._ang=destAng;
 			this._alt=this._getAngleIndex(destAng);
 		}
+	}
 
-		// Future feature: Smooth turn
-		// Return true when turn completes & false if still turning
+	// Animate a turn towards a direction
+	this.turn=function(x, y) {
+		var destAng=0;
+		x=x-this.x;
+		y=y-this.y;
+
+		if(x!=0||y!=0) {
+			if(y==0) {
+				destAng=Math.PI/2;
+				if(x<0) destAng+=Math.PI;
+			} else {
+				destAng=Math.atan(x/y);
+				if(y<0) destAng+=Math.PI;
+			}
+			destAng+=Math.PI*3/2; // Prevents negative values
+			destAng%=Math.PI*2;
+
+			/*
+				Above is the normal stuff.
+				Here is where it gets super complicated.
+			*/
+
+			var diff=destAng-this._ang; // Get the difference in angle
+			if(diff<0) diff+=Math.PI*2;
+
+			if(destAng<this._ang) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
+			if(Math.PI<diff) diff-=Math.PI*2; // Adjust to make it from -π to π
+
+			if(Math.abs(diff)<=this.angVel) this._ang=destAng; // Snap to destination
+			else this._ang+=diff<0?-this.angVel:this.angVel; // Turn towards the destination
+
+			this._ang=(this._ang+Math.PI*2)%(Math.PI*2);
+			this._alt=this._getAngleIndex(this._ang);
+
+			return (this._ang==destAng);
+		}
 
 		return true;
 	}
@@ -136,6 +174,10 @@ var Sprite=function(id) {
 
 	// Return an index from the angle
 	this._getAngleIndex=function(angle) {
+		// Debug to catch out of bound angles
+		if(angle<0) throw (this.id+' call to _getAngleIndex(), angle < 0');
+		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex(), 2π < angle');
+
 		angle=-angle+Math.PI*5/2;
 		return Math.round(angle/(Math.PI*2/this._altCount))%this._altCount;
 	}
