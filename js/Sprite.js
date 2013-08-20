@@ -184,7 +184,7 @@ var Sprite=function(id) {
 
 	// Returns the position in the sprite sheet to load
 	//		the sprite from.  It has 2 parts:
-	//		 u = Frame of the animation [laid out horizantal]
+	//		 u = Frame of the animation [laid out horizontal]
 	//		 v = Alternate angles [laid out vertical]
 	this._getSheetPos=function() {
 		return { u: this.sizeX*this._frame, v: this.sizeY*this._alt };
