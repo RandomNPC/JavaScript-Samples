@@ -61,10 +61,23 @@ var Sprite=function(id) {
 
 	// Face the sprite in a direction
 	this.face=function(x, y) {
-		var cx=this.x-x;
-		var cy=this.y-y;
+		var destAng=0;
+		x=x-this.x;
+		y=y-this.y;
 
-		this._alt=this._getAngleIndex(x, y);
+		if(x!=0||y!=0) {
+			if(y==0) {
+				destAng=Math.PI/2;
+				if(x<0) destAng+=Math.PI;
+			} else {
+				destAng=Math.atan(x/y);
+				if(y<0) destAng+=Math.PI;
+			}
+			destAng+=Math.PI*3/2; // Prevents negative values
+			destAng%=Math.PI*2;
+
+			this._alt=this._getAngleIndex(destAng);
+		}
 
 		// Future feature: Smooth turn
 		// Return true when turn completes & false if still turning
@@ -122,25 +135,9 @@ var Sprite=function(id) {
 
 
 	// Return an index from the angle
-	this._getAngleIndex=function(u, v) {
-		if(u==0&&v==0) return this._alt;
-
-		var x, y, r;
-
-		x=u-this.x;
-		y=this.y-v;
-
-		if(y==0) {
-			r=Math.PI/2;
-			if(x<0) r+=Math.PI;
-		} else {
-			r=Math.atan(x/y);
-			if(y<0) r+=Math.PI;
-		}
-
-		r+=Math.PI*2; // Prevents negative values
-
-		return Math.round(r/(Math.PI*2/this._altCount))%this._altCount;
+	this._getAngleIndex=function(angle) {
+		angle=-angle+Math.PI*5/2;
+		return Math.round(angle/(Math.PI*2/this._altCount))%this._altCount;
 	}
 
 	// Returns the position in the sprite sheet to load
