@@ -19,6 +19,18 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	tankBody.draw(ctx);
 
 
+	setInterval(function() {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		tankBody.turn(mouse.x, mouse.y);
+		tankBody.drawAni(ctx);
+	}, 42)
+
+	/*
+		This will gracefully turn the sprite towards the
+			direction of the mouse, instead of snaping to the
+			mouse.
+	*/
+
 
 	canvas.onmouseup=function() { // On click
 
