@@ -1,41 +1,35 @@
 /*
-	This sample is the basics of making a server that can respond
-		to a client.
+	I will disect the parts of this server.
 
-	Run this server by entering into the terminal:
-		node Hi
+	The require('http') line assigns an HTTP object we can use.
+		The method we use is "createServer(func)", where "func"
+		is a function with 2 parameters
 
-	You will see nothing until a client connects, so open a web
-		browser & connect yourself.  Type in the address bar:
-			localhost
-		then press enter.
+	A cleaner view of this:
+		f=function(a, b)
+		http.createServer(f)
 
-	You will see Ohaider on the web page & a message in the
-		terminal.  If not, scroll to the bottom to read the note.
+	That method takes a function as a parameter, so I can define
+		a function right inside the parameter list.
 */
 
 var http=require('http');
 
-var app=http.createServer(function(request, response) {
-	console.log('A client has connected!')
+var app=http.createServer(
 
-	// Craft an HTTP packet
-	response.writeHead(200, { 'Content-Type': 'text/plain' });
-	response.write('Ohaider');
-	response.end(); // Send it
-});
+	// Define a function with 2 parameters
+	function(request, response) {
+		var answer=9*6; // Do work?
 
-app.listen(80); // Default port for HTTP
+		// Make an HTTP packet & send to the client.
+		response.writeHead(200, { 'Content-Type': 'text/plain' });
+		response.write('9*6='+answer);
+		response.end();
 
-/*
-	If your web browser gave an error, change the listening port
-		to a larger number [between 1000-65535] like 1234.  The
-		line should read something like:
-			app.listen(1234);
+		// Write to the terminal
+		console.log('Denied client the meaning of life.');
+	}
 
-	Restart the server by pressing Ctrl+C twice, then retyping
-		the command to start the server.
+);
 
-	In the web browser address, type something like:
-		localhost:1234
-*/
+app.listen(80);
