@@ -24,7 +24,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 
 
 	canvas.onmouseup=function() { // On click
-
+		tank.setDest(mouse.x, mouse.y);
 	}
 
 	canvas.onmousemove=function(event) { // Mouse move

@@ -19,6 +19,10 @@ var Unit_Tank=function() {
 	this.siegeTurretTrans;
 
 
+	this.atDest=false; // Are we there yet?
+	this._dest={ x: 0, y: 0 }; // Move to
+
+
 
 	// Draws the tank
 	this.draw=function(ctx) {
@@ -41,6 +45,12 @@ var Unit_Tank=function() {
 		this.siegeTurretTrans.translate(x, y);
 		this.tankTurret.translate(x, y);
 		this.siegeTurret.translate(x, y);
+	}
+
+	this.setDest=function(x, y) {
+		this._dest.x=x;
+		this._dest.y=y;
+		this.atDest=false;
 	}
 
 
