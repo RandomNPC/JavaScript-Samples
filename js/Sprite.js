@@ -43,6 +43,19 @@ var Sprite=function(id) {
 	this._stepped=0; // DEBUG: Help coders catch unecessary calls to step() before a draw()
 
 
+	this.Sprite=function(id) { // Constructor
+		this.id=id;
+		this.img=document.getElementById(id);
+
+		if(this.img!=null) {
+			this.setTileSize(this.sizeX, this.sizeY);
+		} else {
+			var id=this.id;
+			this.id=null;
+			throw ('ID "'+id+'" not found.  Not initializing');
+		}
+	}
+
 
 	// Draws to canvas only
 	this.draw=function(ctx) {
@@ -201,4 +214,9 @@ var Sprite=function(id) {
 	this._getSheetPos=function() {
 		return { u: this.sizeX*this._frame, v: this.sizeY*this._alt };
 	}
+
+
+
+	// Constructor
+	this.Sprite(id);
 }
