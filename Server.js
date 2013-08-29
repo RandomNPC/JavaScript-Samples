@@ -1,5 +1,11 @@
 /*
-	In this sample, I will be making an app that focuses on
-		communication with the server.
 */
 
+var express=require('express');
+var app=express();
+
+app.use(express.static(__dirname+'/root'));
+
+
+
+app.listen(80);
