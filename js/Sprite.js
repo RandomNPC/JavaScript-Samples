@@ -91,6 +91,23 @@ var Sprite=function(id) {
 	this.move=function(x, y, v) {
 		if(v==undefined) v=this.vel;
 		else this.vel=v;
+
+		// Offsets
+		var cx, cy, vx, vy;
+		cx=(x-this.x);
+		cy=(y-this.y);
+
+		// If the place to travel is less than a pixel, stop
+		if(-1<cx&&cx<1) {
+			cx=0;
+			this.x=x;
+		}
+		if(-1<cy&&cy<1) {
+			cy=0;
+			this.y=y;
+		}
+
+		// Gonna have to do some math to make diagonal movement smooth
 	}
 
 	// Face the sprite in a direction
