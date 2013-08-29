@@ -108,6 +108,15 @@ var Sprite=function(id) {
 		}
 
 		// Gonna have to do some math to make diagonal movement smooth
+		if(cx==0) vx=0;
+		else vx=(cx<0?-1:1)*this.vel*Math.cos(Math.atan(cy/cx));
+		if(cy==0) vy=0;
+		else vy=(cy<0?-1:1)*Math.sqrt(this.vel*this.vel-vx*vx);
+		// If math isn't for you, don't worry about this.  :P
+
+		this.x+=vx;
+		this.y+=vy;
+
 	}
 
 	// Face the sprite in a direction
