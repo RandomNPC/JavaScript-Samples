@@ -37,6 +37,10 @@ var Unit_Tank=function() {
 		this.tankTurret.drawAni(ctx);
 		this.siegeTurret.drawAni(ctx);
 	}
+	this.drawAni=function(ctx) {
+		this.step();
+		this.draw(ctx);
+	}
 
 	this.translate=function(x, y) {
 		this.siegeBodyTrans.translate(x, y);

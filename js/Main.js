@@ -18,8 +18,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 
 	setInterval(function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		tank.step();
-		tank.draw(ctx);
+		tank.drawAni(ctx);
 	}, 42);
 
 
