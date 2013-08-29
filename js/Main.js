@@ -35,6 +35,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	document.onkeyup=function(event) { // Keyboard key up
 		switch(event.keyCode) {
 			case 84: // T
+				tank.changeMode();
 				break;
 			case 32: // Space
 				break;

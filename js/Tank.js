@@ -22,6 +22,8 @@ var Unit_Tank=function() {
 	this.frozen=false;	// Is it frozen in an ice spell like state?
 
 	this._movable=true;	// The tank cant drive when transformed
+	this._siegeMode=false;	// Which mode is it transforming to?
+	this._siegeLock=false;	// Is it locked because of transformation?
 
 	this.atDest=false; // Are we there yet?
 	this._dest={ x: 0, y: 0 }; // Move to
@@ -32,6 +34,7 @@ var Unit_Tank=function() {
 	this.draw=function(ctx) {
 		if(ctx==undefined) throw ('Context not passed');
 
+		this._transform();
 
 		// Draw all sprites
 		if(this.frozen) { // Don't animate the parts if frozen
@@ -77,8 +80,12 @@ var Unit_Tank=function() {
 
 	// Point the turret
 	this.target=function(x, y) {
-		var targeted=this.tankTurret.turn(x, y);
-		this.siegeTurret.face(x, y);
+		if(this._siegeLock) return false; // Prevent lockups during transform
+		var targeted;
+
+		// Have the turrets in both modes rotate at different speeds
+		if(this._siegeMode) this.siegeTurret.turn(x, y);
+		else targeted=this.tankTurret.turn(x, y);
 		return targeted;
 	}
 
@@ -94,12 +101,81 @@ var Unit_Tank=function() {
 		return targeted;
 	}
 
+	// For transformation between the 2 modes
+	this.changeMode=function() {
+		this._siegeMode=!this._siegeMode;
+		this._siegeLock=true;
+		this._movable=false;
+	}
+	this._transform=function() {
+		var turned=true;
+		if(this._siegeLock&&!this._movable) {
+			turned&=this.tankBody.turn(this.tankBody.x+2, this.tankBody.y+2);
+			turned&=this.tankTurret.turn(this.tankTurret.x-2, this.tankTurret.y-2);
+			turned&=this.siegeTurret.turn(this.tankTurret.x-2, this.tankTurret.y-2);
+
+			if(!turned) return false;
+
+			// Tons of goop to make the animation beautiful.
+			// It is a lot to read & soak in.  You don't have to try too hard.
+			if(this._siegeMode) { // Transforming to siege mode
+				this.tankBody.hide=true;
+				this.siegeBodyTrans.hide=false; // Show body transform
+
+				this.siegeBodyTrans.reverse=false;
+				if(this.siegeBodyTrans.isEnd()) {
+					this.tankTurret.hide=true;
+					this.siegeBodyTrans.hide=true; // Show turret transform
+
+					this.siegeBody.hide=false;
+					this.siegeTurretTrans.hide=false; // Show siege body
+
+					this.siegeTurretTrans.reverse=false;
+					if(this.siegeTurretTrans.isEnd()) {
+						this.siegeTurretTrans.hide=true; // Show siege turret
+
+						this.siegeTurret.hide=false;
+
+						this._siegeLock=false; // Unlock tank
+
+						return true;
+					}
+				}
+			} else { // Transforming to tank mode
+				this.siegeTurret.hide=true;
+
+				this.siegeTurretTrans.hide=false; // Show turret transform
+
+				this.siegeTurretTrans.reverse=true;
+				if(this.siegeTurretTrans.isEnd()) {
+					this.siegeBody.hide=true;
+					this.siegeBodyTrans.hide=false; // Show body transform
+
+					this.siegeBodyTrans.reverse=true;
+					if(this.siegeBodyTrans.isEnd()) {
+						this.siegeBodyTrans.hide=true;
+						this.siegeTurretTrans.hide=true;
+
+						this.tankBody.hide=false;
+						this.tankTurret.hide=false; // Show turret & body
+
+						this._siegeLock=false; // Unlock tank
+						this._movable=true; // Also drivable now
+
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	// Step in the animation
 	this.step=function() {
 		if(this._movable) {
 			if(!this.atDest) {
 				var turned=this.turn(this._dest.x, this._dest.y);
-				
+
 				if(turned) {
 					this.tankBody.move(this._dest.x, this._dest.y, 1.5);
 
