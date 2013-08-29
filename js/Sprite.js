@@ -93,11 +93,12 @@ var Sprite=function(id) {
 		else this.vel=v;
 
 		// Offsets
-		var cx, cy, vx, vy;
+		var cx, cy, vx, vy, moved;
 		cx=(x-this.x);
 		cy=(y-this.y);
+		moved=(cx==0&&cy==0);
 
-		if(this.idle) this.step();
+		if(this.idle&&moved) this.step();
 
 		// If the place to travel is less than a pixel, stop
 		if(-1<cx&&cx<1) {
@@ -119,7 +120,7 @@ var Sprite=function(id) {
 		this.x+=vx;
 		this.y+=vy;
 
-		return (cx==0&&cy==0);
+		return moved;
 	}
 
 	// Face the sprite in a direction
