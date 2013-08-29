@@ -18,6 +18,9 @@ var Unit_Tank=function() {
 	this.siegeTurret;
 	this.siegeTurretTrans;
 
+	this.alive=true;		// Is this tank not blown up?
+	this.frozen=false;	// Is it frozen in an ice spell like state?
+
 	this._movable=true;	// The tank cant drive when transformed
 
 	this.atDest=false; // Are we there yet?
@@ -29,16 +32,29 @@ var Unit_Tank=function() {
 	this.draw=function(ctx) {
 		if(ctx==undefined) throw ('Context not passed');
 
-		this.siegeBodyTrans.drawAni(ctx);
-		this.tankBody.drawAni(ctx);
-		this.siegeBody.drawAni(ctx);
 
-		this.siegeTurretTrans.drawAni(ctx);
-		this.tankTurret.drawAni(ctx);
-		this.siegeTurret.drawAni(ctx);
+		// Draw all sprites
+		if(this.frozen) { // Don't animate the parts if frozen
+			this.siegeBodyTrans.draw(ctx);
+			this.tankBody.draw(ctx);
+			this.siegeBody.draw(ctx);
+
+			this.siegeTurretTrans.draw(ctx);
+			this.tankTurret.draw(ctx);
+			this.siegeTurret.draw(ctx);
+		} else { // Animate the parts
+			this.siegeBodyTrans.drawAni(ctx);
+			this.tankBody.drawAni(ctx);
+			this.siegeBody.drawAni(ctx);
+
+			this.siegeTurretTrans.drawAni(ctx);
+			this.tankTurret.drawAni(ctx);
+			this.siegeTurret.drawAni(ctx);
+		}
+		//
 	}
 	this.drawAni=function(ctx) {
-		this.step();
+		if(!this.frozen) this.step(); // Move the tank & stuffs if not frozen
 		this.draw(ctx);
 	}
 
