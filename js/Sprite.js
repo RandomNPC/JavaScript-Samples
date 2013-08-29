@@ -98,22 +98,24 @@ var Sprite=function(id) {
 		cy=(y-this.y);
 		moved=(cx!=0||cy!=0);
 
-		if(this.idle&&moved) this.step();
+		if(moved) {
+			if(this.idle) this.step(); // If animated only on movement
 
-		// Gonna have to do some math to make diagonal movement smooth
-		if(cx==0) {
-			vx=0;
-		} else {
-			vx=(cx<0?-1:1)*this.vel*Math.cos(Math.atan(cy/cx));
-			if(Math.abs(cx)<Math.abs(vx)) this.x=x;
-			else this.x+=vx;
-		}
-		if(cy==0) {
-			vy=0;
-		} else {
-			vy=(cy<0?-1:1)*Math.sqrt(this.vel*this.vel-vx*vx);
-			if(Math.abs(cy)<Math.abs(vy)) this.y=y;
-			else this.y+=vy;
+			// Gonna have to do some math to make diagonal movement smooth
+			if(cx==0) {
+				vx=0;
+			} else {
+				vx=(cx<0?-1:1)*this.vel*Math.cos(Math.atan(cy/cx));
+				if(Math.abs(cx)<Math.abs(vx)) this.x=x;
+				else this.x+=vx;
+			}
+			if(cy==0) {
+				vy=0;
+			} else {
+				vy=(cy<0?-1:1)*Math.sqrt(this.vel*this.vel-vx*vx);
+				if(Math.abs(cy)<Math.abs(vy)) this.y=y;
+				else this.y+=vy;
+			}
 		}
 
 		return !moved; // Return true if destination reached
