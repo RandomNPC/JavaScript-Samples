@@ -38,12 +38,16 @@ var Sprite=function(id) {
 
 	this._lastSheetPos={ u: 0, v: 0 };
 
+	this._stepped=0; // DEBUG: Help coders catch unecessary calls to step() before a draw()
+
+
 
 	// Draws to canvas only
 	this.draw=function(ctx) {
 		if(ctx==undefined) throw ('Context not passed');
 		if(this.id==null) throw ('Sprite not initialized');
 
+		this._stepped=0;
 
 		if(!this.hide) ctx.drawImage(
 			this.img,	// Image source
@@ -134,11 +138,14 @@ var Sprite=function(id) {
 		}
 
 		if(step) {
+			if(0<this._stepped) console.log(this.id+' stepped '+(this._stepped+1)+' times since last draw.')
+
 			if(this.reverse) { // In reverse, if (frame<0), restart animation
 				if((--this._frame)<0) this._frame=this._frameCount-1;
 			} else { // Normally, if (frameCount<frame), restart animation
 				if(this._frameCount<=(++this._frame)) this._frame=0;
 			}
+			this._stepped++;
 		}
 	}
 
