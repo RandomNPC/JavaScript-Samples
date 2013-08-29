@@ -189,6 +189,7 @@ var Sprite=function(id) {
 		this.midY=this.sizeY/2;
 
 		this._frame=0;
+		this._frameTime=0;
 		this._frameCount=Math.floor(this.img.width/this.sizeX);
 
 		this._alt=0;
