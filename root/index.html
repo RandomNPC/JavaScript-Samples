@@ -1,1 +1,29 @@
-This is a web page!
+<!doctype html>
+<html>
+<head>
+	<title>Tank!</title>
+	<link rel="stylesheet" href="css/Main.css" />
+	<script src="js/Main.js"></script>
+	<script src="js/Tank.js"></script>
+	<script src="js/Sprite.js"></script>
+</head>
+<body>
+	<div style="visibility: hidden; overflow: hidden; position: absolute; width: 1px; height: 1px;">
+		<img id="tankBody" src="img/Tank Body.png" width="384" height="2048" />
+		<img id="tankTurret" src="img/Tank Turret.png" width="128" height="2048" />
+		<img id="siegeBody" src="img/Siege Body.png" width="128" height="128" />
+		<img id="siegeTurret" src="img/Siege Turret.png" width="128" height="2048" />
+		<img id="siegeBodyTransform" src="img/Siege Body Transform.png" width="768" height="128" />
+		<img id="siegeTurretTransform" src="img/Siege Turret Transform.png" width="640" height="128" />
+	</div>
+
+
+	<canvas id="canvas" width="400" height="300" style="vertical-align: top"></canvas>
+	<div style="display: inline-block">
+		Click to move the tank<br>
+		Move the mouse to aim<br>
+		Press T to transform
+	</div>
+
+</body>
+</html>
