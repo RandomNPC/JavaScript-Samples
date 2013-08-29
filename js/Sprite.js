@@ -145,7 +145,7 @@ var Sprite=function(id) {
 
 	// Animate a turn towards a direction
 	this.turn=function(x, y) {
-		var destAng=0;
+		var destAng=0, finalDest=0;
 		x=x-this.x;
 		y=y-this.y;
 
@@ -159,6 +159,7 @@ var Sprite=function(id) {
 			}
 			destAng+=Math.PI*3/2; // Prevents negative values
 			destAng%=Math.PI*2;
+			finalDest=destAng;
 
 			/*
 				Above is the normal stuff.
@@ -177,7 +178,7 @@ var Sprite=function(id) {
 			this._ang=(this._ang+Math.PI*2)%(Math.PI*2);
 			this._alt=this._getAngleIndex(this._ang);
 
-			return (this._ang==destAng);
+			return (this._ang.toFixed(8)==finalDest.toFixed(8));
 		}
 
 		return true;
