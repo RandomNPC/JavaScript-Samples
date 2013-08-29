@@ -96,7 +96,7 @@ var Sprite=function(id) {
 		var cx, cy, vx, vy, moved;
 		cx=(x-this.x);
 		cy=(y-this.y);
-		moved=(cx==0&&cy==0);
+		moved=(cx!=0||cy!=0);
 
 		if(this.idle&&moved) this.step();
 
@@ -120,7 +120,7 @@ var Sprite=function(id) {
 		this.x+=vx;
 		this.y+=vy;
 
-		return moved;
+		return !moved; // Return true if destination reached
 	}
 
 	// Face the sprite in a direction
