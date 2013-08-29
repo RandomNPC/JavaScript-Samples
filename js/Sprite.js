@@ -80,6 +80,24 @@ var Sprite=function(id) {
 		this.draw(ctx);
 	}
 
+	// Translates the object to this cord [basically teleport]
+	this.translate=function(x, y) {
+		this.x=x;
+		this.y=y;
+	}
+
+	// Moves a small amout to the specified direction.
+	// This steps in the animation.
+	this.move=function(x, y, v) {
+		/*
+			The v in the parameter list is velocity.
+
+					Future Feature
+			Move the sprite smoothly to the destination.
+			This is done by moving it a little bit per step.
+		*/
+	}
+
 	// Face the sprite in a direction
 	this.face=function(x, y) {
 		var destAng=0;
