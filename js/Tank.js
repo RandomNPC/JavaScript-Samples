@@ -18,6 +18,7 @@ var Unit_Tank=function() {
 	this.siegeTurret;
 	this.siegeTurretTrans;
 
+	this._movable=true;	// The tank cant drive when transformed
 
 	this.atDest=false; // Are we there yet?
 	this._dest={ x: 0, y: 0 }; // Move to
@@ -51,6 +52,32 @@ var Unit_Tank=function() {
 		this._dest.x=x;
 		this._dest.y=y;
 		this.atDest=false;
+	}
+	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
+
+	// Step in the animation
+	this.step=function() {
+		if(this._movable) {
+			if(!this.atDest) {
+				this.tankBody.move(this._dest.x, this._dest.y, 1.5);
+
+				var pos=this.getPos();
+				if(pos.x==this._dest.x&&pos.y==this._dest.y) {
+					this.atDest=true;
+				} else {
+					this.tankBody.face(this._dest.x, this._dest.y);
+
+					// Just snap the rest of the sprites to the body
+					this.siegeBody.translate(pos.x, pos.y);
+					this.siegeBodyTrans.translate(pos.x, pos.y);
+					this.tankTurret.translate(pos.x, pos.y);
+					this.siegeTurret.translate(pos.x, pos.y);
+					this.siegeTurretTrans.translate(pos.x, pos.y);
+				}
+			}
+		} else {
+			this.atDest=true;
+		}
 	}
 
 
