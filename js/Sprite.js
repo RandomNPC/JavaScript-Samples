@@ -117,6 +117,7 @@ var Sprite=function(id) {
 		this.x+=vx;
 		this.y+=vy;
 
+		return (cx==0&&cy==0);
 	}
 
 	// Face the sprite in a direction
