@@ -89,13 +89,8 @@ var Sprite=function(id) {
 	// Moves a small amout to the specified direction.
 	// This steps in the animation.
 	this.move=function(x, y, v) {
-		/*
-			The v in the parameter list is velocity.
-
-					Future Feature
-			Move the sprite smoothly to the destination.
-			This is done by moving it a little bit per step.
-		*/
+		if(v==undefined) v=this.vel;
+		else this.vel=v;
 	}
 
 	// Face the sprite in a direction
