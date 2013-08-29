@@ -34,7 +34,7 @@ var Unit_Tank=function() {
 	}
 
 	this.translate=function(x, y) {
-		this.tankBody.translate(x, y);
+		this.siegeBodyTrans.translate(x, y);
 		this.tankBody.translate(x, y);
 		this.siegeBody.translate(x, y);
 
