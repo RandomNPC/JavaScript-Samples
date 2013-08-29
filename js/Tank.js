@@ -170,6 +170,14 @@ var Unit_Tank=function() {
 		return false;
 	}
 
+	this.getAlive=function() { return alive; }
+	this.kill=function() {
+		this.alive=false;
+		if(this.alive==false) {
+			// Play some explosion animation & delete self
+		}
+	}
+
 	// Step in the animation
 	this.step=function() {
 		if(this._movable) {
