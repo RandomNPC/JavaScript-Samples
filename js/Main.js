@@ -13,18 +13,10 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	ctx=canvas.getContext('2d');
 
 	tankBody=new Sprite('tankBody');
-	tankBody.idle=true;
 	tankBody.x=64;
 	tankBody.y=90;
-	tankBody.vel=2;
 	tankBody.draw(ctx);
 
-
-	setInterval(function() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		tankBody.move(mouse.x, mouse.y);
-		tankBody.drawAni(ctx);
-	}, 42);
 
 
 	canvas.onmouseup=function() { // On click
