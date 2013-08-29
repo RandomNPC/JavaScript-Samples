@@ -100,28 +100,20 @@ var Sprite=function(id) {
 
 		if(this.idle&&moved) this.step();
 
-		// If the place to travel is less than a pixel, stop
-		if(-1<cx&&cx<1) {
-			cx=0;
-			this.x=x;
-		}
-		if(-1<cy&&cy<1) {
-			cy=0;
-			this.y=y;
-		}
-
 		// Gonna have to do some math to make diagonal movement smooth
 		if(cx==0) {
 			vx=0;
 		} else {
 			vx=(cx<0?-1:1)*this.vel*Math.cos(Math.atan(cy/cx));
-			this.x+=vx;
+			if(Math.abs(cx)<Math.abs(vx)) this.x=x;
+			else this.x+=vx;
 		}
 		if(cy==0) {
 			vy=0;
 		} else {
 			vy=(cy<0?-1:1)*Math.sqrt(this.vel*this.vel-vx*vx);
-			this.y+=vy;
+			if(Math.abs(cy)<Math.abs(vy)) this.y=y;
+			else this.y+=vy;
 		}
 
 		return !moved; // Return true if destination reached
