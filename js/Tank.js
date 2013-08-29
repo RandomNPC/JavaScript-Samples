@@ -36,7 +36,7 @@ var Unit_Tank=function() {
 
 
 	// Example of initializing many sprites
-	this.initSprites=function() {
+	this._initSprites=function() {
 		// Sprite for tank's body
 		this.tankBody=new Sprite('tankBody');
 		this.tankBody.idle=true; // Overriding to make it stop animating when idle
@@ -74,5 +74,5 @@ var Unit_Tank=function() {
 
 
 	// Constructor
-	this.initSprites();
+	this._initSprites();
 }
