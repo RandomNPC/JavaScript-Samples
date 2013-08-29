@@ -97,6 +97,8 @@ var Sprite=function(id) {
 		cx=(x-this.x);
 		cy=(y-this.y);
 
+		if(this.idle) this.step();
+
 		// If the place to travel is less than a pixel, stop
 		if(-1<cx&&cx<1) {
 			cx=0;
