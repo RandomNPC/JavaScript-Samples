@@ -63,20 +63,22 @@ var Unit_Tank=function() {
 	this.step=function() {
 		if(this._movable) {
 			if(!this.atDest) {
-				this.tankBody.move(this._dest.x, this._dest.y, 1.5);
+				var turned=this.tankBody.turn(this._dest.x, this._dest.y);
 
-				var pos=this.getPos();
-				if(pos.x==this._dest.x&&pos.y==this._dest.y) {
-					this.atDest=true;
-				} else {
-					this.tankBody.face(this._dest.x, this._dest.y);
+				if(turned) {
+					this.tankBody.move(this._dest.x, this._dest.y, 1.5);
 
-					// Just snap the rest of the sprites to the body
-					this.siegeBody.translate(pos.x, pos.y);
-					this.siegeBodyTrans.translate(pos.x, pos.y);
-					this.tankTurret.translate(pos.x, pos.y);
-					this.siegeTurret.translate(pos.x, pos.y);
-					this.siegeTurretTrans.translate(pos.x, pos.y);
+					var pos=this.getPos();
+					if(pos.x==this._dest.x&&pos.y==this._dest.y) {
+						this.atDest=true;
+					} else {
+						// Just snap the rest of the sprites to the body
+						this.siegeBody.translate(pos.x, pos.y);
+						this.siegeBodyTrans.translate(pos.x, pos.y);
+						this.tankTurret.translate(pos.x, pos.y);
+						this.siegeTurret.translate(pos.x, pos.y);
+						this.siegeTurretTrans.translate(pos.x, pos.y);
+					}
 				}
 			}
 		} else {
