@@ -187,6 +187,8 @@ var Sprite=function(id) {
 
 	// This steps in the animation
 	this.step=function() {
+		if(this.pause) return;
+
 		var step=false; // Whether to step in the animation
 
 		if(this.loop) { // In looped mode, always step
