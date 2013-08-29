@@ -75,12 +75,31 @@ var Unit_Tank=function() {
 	}
 	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
 
+	// Point the turret
+	this.target=function(x, y) {
+		var targeted=this.tankTurret.turn(x, y);
+		this.siegeTurret.face(x, y);
+		return targeted;
+	}
+
+	// Turn the tank
+	this.turn=function(x, y) {
+		var lastAng=this.tankBody.getAng();
+		var targeted=this.tankBody.turn(x, y);
+		var diff=this.tankBody.getAng()-lastAng;
+		var ang=this.tankTurret.getAng()+diff;
+		ang+=Math.PI*2;
+		ang%=Math.PI*2;
+		this.tankTurret.setAng(ang);
+		return targeted;
+	}
+
 	// Step in the animation
 	this.step=function() {
 		if(this._movable) {
 			if(!this.atDest) {
-				var turned=this.tankBody.turn(this._dest.x, this._dest.y);
-
+				var turned=this.turn(this._dest.x, this._dest.y);
+				
 				if(turned) {
 					this.tankBody.move(this._dest.x, this._dest.y, 1.5);
 
@@ -114,6 +133,7 @@ var Unit_Tank=function() {
 		this.tankTurret=new Sprite('tankTurret');
 		this.tankTurret.midY+=12; // Changing the midpoint of the picture to be lower
 		this.tankTurret.idle=true;
+		this.tankTurret.angVel=Math.PI/8;
 
 		// Sprite for siege tank's body
 		this.siegeBody=new Sprite('siegeBody');

@@ -121,6 +121,14 @@ var Sprite=function(id) {
 		return !moved; // Return true if destination reached
 	}
 
+	this.getAng=function() {
+		return this._ang;
+	}
+	this.setAng=function(angle) {
+		this._ang=angle;
+		this._alt=this._getAngleIndex(angle);
+	}
+
 	// Face the sprite in a direction
 	this.face=function(x, y) {
 		var destAng=0;
@@ -181,7 +189,7 @@ var Sprite=function(id) {
 			return (this._ang.toFixed(8)==finalDest.toFixed(8));
 		}
 
-		return true;
+		return false; // Return false if not facing the target
 	}
 
 	// This steps in the animation
@@ -245,8 +253,8 @@ var Sprite=function(id) {
 	// Return an index from the angle
 	this._getAngleIndex=function(angle) {
 		// Debug to catch out of bound angles
-		if(angle<0) throw (this.id+' call to _getAngleIndex(), angle < 0');
-		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex(), 2π < angle');
+		if(angle<0) throw (this.id+' call to _getAngleIndex('+angle+'), angle < 0');
+		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex('+angle+'), 2π < angle');
 
 		angle=-angle+Math.PI*5/2;
 		return Math.round(angle/(Math.PI*2/this._altCount))%this._altCount;
