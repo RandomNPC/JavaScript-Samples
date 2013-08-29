@@ -32,6 +32,8 @@ var Sprite=function(id) {
 
 	this._frame=0;			// < Current frame of an animation
 	this._frameCount=0;	// < Number of frames in an animation
+	this._frameTime=0;
+	this._frameTimeMax=4;
 	this._alt=0;			// < Alternate views [different angles]
 	this._altCount=0;
 	this._ang=0;
@@ -139,11 +141,14 @@ var Sprite=function(id) {
 
 		if(step) {
 			if(0<this._stepped) console.log(this.id+' stepped '+(this._stepped+1)+' times since last draw.')
+			if(this._frameTimeMax<=(++this._frameTime)) { // Makes a frame last some amount of time
+				this._frameTime=0;
 
-			if(this.reverse) { // In reverse, if (frame<0), restart animation
-				if((--this._frame)<0) this._frame=this._frameCount-1;
-			} else { // Normally, if (frameCount<frame), restart animation
-				if(this._frameCount<=(++this._frame)) this._frame=0;
+				if(this.reverse) { // In reverse, if (frame<0), restart animation
+					if((--this._frame)<0) this._frame=this._frameCount-1;
+				} else { // Normally, if (frameCount<frame), restart animation
+					if(this._frameCount<=(++this._frame)) this._frame=0;
+				}
 			}
 			this._stepped++;
 		}
