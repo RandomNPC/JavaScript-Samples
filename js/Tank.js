@@ -18,11 +18,11 @@ var Unit_Tank=function() {
 	this.siegeTurret;
 	this.siegeTurretTrans;
 
-	
+
 
 	// Draws the tank
 	this.draw=function(ctx) {
-		if(ctx==undefined) { console.log('Error: Context not passed'); return; }
+		if(ctx==undefined) throw ('Context not passed');
 
 		this.siegeBodyTrans.drawAni(ctx);
 		this.tankBody.drawAni(ctx);
