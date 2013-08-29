@@ -33,6 +33,16 @@ var Unit_Tank=function() {
 		this.siegeTurret.drawAni(ctx);
 	}
 
+	this.translate=function(x, y) {
+		this.tankBody.translate(x, y);
+		this.tankBody.translate(x, y);
+		this.siegeBody.translate(x, y);
+
+		this.siegeTurretTrans.translate(x, y);
+		this.tankTurret.translate(x, y);
+		this.siegeTurret.translate(x, y);
+	}
+
 
 
 	// Example of initializing many sprites
