@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Lab</title>
+	<link rel="icon" href="Images/Misc/Lab.ico" />
+	<script type="text/javascript" src="Libs/Standard.js"></script>
+	<script type="text/javascript" src="Libs/Basic.js"></script>
+	<script type="text/javascript" src="Libs/Equation Generator.js"></script>
+	<script type="text/javascript" src="Libs/Deck.js"></script>
+	<style type="text/css">
+		body {
+			font-family: Arial;
+			font-size: 14pt;
+			background-color: #000000;
+			color: #ffffff;
+		}
+
+		.lab {
+			background-image: url("Images/Misc/Lab BG.png");
+			background-repeat: no-repeat;
+			background-position: center top;
+			width: 100%;
+			height: 1024px;
+			position: absolute;
+			z-index: -1;
+		}
+
+		td {
+			border: 1px solid #600000;
+		}
+
+		.eq {
+			background-color: #2020a0;
+		}
+
+		.ans {
+			font-family: Arial;
+			float: right;
+			background-color: #005000;
+		}
+
+		table {
+			display:inline;
+		}
+	</style>
+</head>
+<body>
+	<div class="lab"></div>
+
+	<script type="text/javascript">
+		var deck1 = new Deck(); // Makes a new Deck of default size 52
+		var handSize, hand = new Array();
+
+		deck1.shuffle();
+		deck1.selectD(0);
+		deck1.selectV(4);
+		deck1.selectV(7);
+		deck1.selectV(23);
+		deck1.selectV(30);
+		deck1.selectV(50);
+		deck1.deselectV(7);
+
+		handSize = deck1.listSelected(hand);
+
+		document.write('Card Deck Representation<br>');
+
+
+
+		document.write('<table><tr><td>Num</td><td>Value</td><td>Suit</td><td>File Name</td><td>Selected</td></tr>');
+		for (var i = 0; i < deck1.DECKSIZE; i++) {
+			var c = deck1.cards[i];
+			document.write('<tr>');
+
+			document.write('<td>' + c + '</td>');
+			document.write('<td>' + cardV(c) + '</td>');
+			document.write('<td>' + cardS(c) + '</td>');
+			document.write('<td>' + cardFile(c) + '</td>');
+			document.write('<td>' + (deck1.isSelectedV(c) ? 'true' : '&nbsp;') + '</td>');
+
+			document.write('</tr>');
+		}
+		document.write('</table>');
+
+
+
+		document.write('<table><tr><td>Num</td><td>Value</td><td>Suit</td><td>File Name</td></tr>');
+		for (var i = 0; i < handSize; i++) {
+			var c = hand[i];
+			document.write('<tr>');
+
+			document.write('<td>' + c + '</td>');
+			document.write('<td>' + cardV(c) + '</td>');
+			document.write('<td>' + cardS(c) + '</td>');
+			document.write('<td>' + cardFile(c) + '</td>');
+
+			document.write('</tr>');
+		}
+		document.write('</table>')
+	</script>
+
+	<script type="text/javascript">
+		/*
+		function struct() { this.EQ = ""; this.answer = 0; };
+
+		document.write('Equation Generator Test<br><table>');
+
+		document.write('<tr>');
+		for (var l = 1; l <= maxLVL_generateEQ; l++){
+			document.write('<td style="font-weight:bold;color:#ff0000;text-align:center;">Level: ' + l + '</td>');
+		}
+		document.write('</tr>');
+
+		for (var i = 0; i < 20; i++) {
+			document.write('<tr>');
+			for (var l = 1; l <= maxLVL_generateEQ; l++) {
+				document.write('<td>');
+
+				struct = generateEQ(l);
+				document.write('<span class=eq>' + struct.EQ + '</span> &nbsp; &nbsp; <span class=ans>' + struct.answer + '</span><br>');
+
+				document.write('</td>');
+			}
+			document.write('</tr>');
+		}
+		document.write('</table>');
+		*/
+	</script>
+</body>
+</html>
