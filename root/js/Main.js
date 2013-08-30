@@ -102,10 +102,10 @@ function posget() {
 	}
 };
 function possend() {
-	if(posSpamLess++==3) { // Spams at most half the time :P
-		posSpamLess=0;
+	if(posSpamLess++<7) { // Spams at most half the time :P
 		return;
 	}
+	posSpamLess=0;
 
 	posdone=false;
 	posrecv='';
