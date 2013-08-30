@@ -68,15 +68,17 @@ var Unit_Tank=function() {
 		this.siegeTurret.translate(x, y);
 	}
 
+	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
 	this.setDest=function(x, y) {
 		this._dest.x=x;
 		this._dest.y=y;
 		this.atDest=false;
 	}
-	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
 
 	this.getFace=function() { return this.tankBody._ang; }
+	this.setFace=function(ang) { this.tankBody._ang=ang; }
 	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
+	this.setTarget=function(ang) { this.siegeTurret._ang=this.tankTurret._ang=ang; }
 
 	// Point the turret
 	this.target=function(x, y) {
@@ -102,10 +104,12 @@ var Unit_Tank=function() {
 	}
 
 	// For transformation between the 2 modes
-	this.changeMode=function() {
-		this._siegeMode=!this._siegeMode;
-		this._siegeLock=true;
-		this._movable=false;
+	this.changeMode=function(mode) {
+		if(mode==undefined||this._siegeMode!=mode) {
+			this._siegeMode=!this._siegeMode;
+			this._siegeLock=true;
+			this._movable=false;
+		}
 	}
 	this._transform=function() {
 		var turned=true;
