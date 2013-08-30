@@ -74,7 +74,7 @@ function processTanks() {
 			var newTank=new Unit_Tank();
 
 			var i=players.length;
-			newTank.name=roster[i].name;
+			newTank.name=roster[i].name+' [id: '+i+']';
 			newTank.translate(Number(roster[i].pos.x), Number(roster[i].pos.y));
 			newTank.setFace(Number(roster[i].face));
 			newTank.setTarget(Number(roster[i].target));
@@ -96,8 +96,6 @@ function processTanks() {
 		players[i].changeMode(eval(roster[i].siegeMode));
 
 		players[i].drawAni(ctx); // Draw that player
-
-		//if(posSpamLess==0) console.log(roster[i].siegeMode+'   '+players[i]._siegeMode);
 	}
 
 	tank.target(mouse.x, mouse.y);
@@ -139,10 +137,11 @@ function posget() {
 	}
 };
 function possend() {
-	if(posSpamLess++<7) { // Spams at most half the time :P
-		return;
-	}
+	if(posSpamLess++<1) return; // Spams at most half the time :P
 	posSpamLess=0;
+
+	var x=tank.atDest?tank.getPos().x:tank._dest.x;
+	var y=tank.atDest?tank.getPos().y:tank._dest.y;
 
 	posdone=false;
 	posrecv='';
@@ -150,8 +149,8 @@ function possend() {
 	pos.open('get',
 		'/pos/'+
 		playerID+'/'+
-		tank._dest.x+'/'+
-		tank._dest.y+'/'+
+		x+'/'+
+		y+'/'+
 		tank.getFace()+'/'+
 		tank.getTarget()+'/'+
 		tank._siegeMode, true);
