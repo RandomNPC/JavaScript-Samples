@@ -11,18 +11,19 @@ var login=new XMLHttpRequest(), logindone, loginrecv;
 var playerName='', playerID=0;
 
 var pos=new XMLHttpRequest(), posdone=true, posrecv='{}';
-var players=new Array();
-
+var players=new Array(); // players is the array of Sprites of everyone
+var roster; // roster the updated list of everyone's state
 
 
 window.onload=function() { // Makes sure the website is loaded before running code
 	canvas=document.getElementById('canvas');
 	ctx=canvas.getContext('2d');
 
-	tank=new Unit_Tank('tankBody');
+	tank=new Unit_Tank();
 	tank.translate(64, 90);
 
 	while(playerName.length==0) playerName=prompt('Pick a name');
+	if(playerName==null) return;
 	loginsend();
 
 
@@ -66,28 +67,41 @@ window.onload=function() { // Makes sure the website is loaded before running co
 
 
 function processTanks() {
-	tank.target(mouse.x, mouse.y);
-	tank.drawAni(ctx);
-
 	if(posdone) {
-		var roster=JSON.parse(posrecv);
+		roster=JSON.parse(posrecv);
 
 		while(players.length<roster.length) { // Populate tank array with new guys
 			var newTank=new Unit_Tank();
 
 			var i=players.length;
 			newTank.name=roster[i].name;
-			newTank.translate(roster[i].pos.x, roster[i].pos.y);
-			newTank.setFace(roster[i].face);
-			newTank.setTarget(roster[i].target);
-			newTank.changeMode(roster[i].siegeMode);
+			newTank.translate(Number(roster[i].pos.x), Number(roster[i].pos.y));
+			newTank.setFace(Number(roster[i].face));
+			newTank.setTarget(Number(roster[i].target));
+			newTank.changeMode(eval(roster[i].siegeMode));
 
 			players.push(newTank);
-			console.log(players)
+			console.log(players);
 		}
 
 		possend();
 	}
+
+	for(var i=0; i<players.length; ++i) { // Draw everyone to the playing field
+		if(i==playerID) continue; // Except yourself
+
+		// Update that player's states
+		players[i].setDest(Number(roster[i].pos.x), Number(roster[i].pos.y));
+		players[i].target(Number(roster[i].target));
+		players[i].changeMode(eval(roster[i].siegeMode));
+
+		players[i].drawAni(ctx); // Draw that player
+
+		//if(posSpamLess==0) console.log(roster[i].siegeMode+'   '+players[i]._siegeMode);
+	}
+
+	tank.target(mouse.x, mouse.y);
+	tank.drawAni(ctx);
 
 	var playerPos=tank.getPos();
 }
@@ -116,7 +130,7 @@ function loginsend() {
 	login.send();
 };
 
-var posSpamLess=0;
+var posSpamLess=1;
 function posget() {
 	if(this.readyState==4&&this.status==200) {
 		posrecv=this.responseText;
