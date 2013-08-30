@@ -152,29 +152,36 @@ var Sprite=function(id) {
 	}
 
 	// Animate a turn towards a direction
-	this.turn=function(x, y) {
+	this.turn=function(x, y) { // 2 overloads
 		var destAng=0, finalDest=0;
-		x=x-this.x;
-		y=y-this.y;
 
-		if(x!=0||y!=0) {
-			if(y==0) {
-				destAng=Math.PI/2;
-				if(x<0) destAng+=Math.PI;
-			} else {
-				destAng=Math.atan(x/y);
-				if(y<0) destAng+=Math.PI;
+		if(y==undefined) { // turn(angle)
+			destAng=x;
+		} else { // turn(x, y)
+			x=x-this.x;
+			y=y-this.y;
+
+			if(x!=0||y!=0) {
+				if(y==0) {
+					destAng=Math.PI/2;
+					if(x<0) destAng+=Math.PI;
+				} else {
+					destAng=Math.atan(x/y);
+					if(y<0) destAng+=Math.PI;
+				}
+				destAng+=Math.PI*3/2; // Prevents negative values
+				destAng%=Math.PI*2;
 			}
-			destAng+=Math.PI*3/2; // Prevents negative values
-			destAng%=Math.PI*2;
-			finalDest=destAng;
+		}
 
-			/*
-				Above is the normal stuff.
-				Here is where it gets super complicated.
-			*/
+		finalDest=destAng;
 
-			var diff=destAng-this._ang; // Get the difference in angle
+		/*
+			Above is the normal stuff.
+			Here is where it gets super complicated.
+		*/
+		var diff=destAng-this._ang; // Get the difference in angle
+		if(Math.abs(diff.toFixed(8))!=0) {
 			if(diff<0) diff+=Math.PI*2;
 
 			if(destAng<this._ang) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
@@ -186,10 +193,10 @@ var Sprite=function(id) {
 			this._ang=(this._ang+Math.PI*2)%(Math.PI*2);
 			this._alt=this._getAngleIndex(this._ang);
 
-			return (this._ang.toFixed(8)==finalDest.toFixed(8));
 		}
 
-		return false; // Return false if not facing the target
+		// Return false if not facing the target
+		return (this._ang.toFixed(8)==finalDest.toFixed(8));
 	}
 
 	// This steps in the animation
