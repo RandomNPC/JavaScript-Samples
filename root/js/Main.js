@@ -9,7 +9,7 @@ var tank;
 
 var login=new XMLHttpRequest(), logindone, loginrecv;
 var playerName='', playerID=0;
-
+var players=new Array();
 
 
 window.onload=function() { // Makes sure the website is loaded before running code
@@ -26,10 +26,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	setInterval(function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		if(tank.name.length!=0) {
-			tank.target(mouse.x, mouse.y);
-			tank.drawAni(ctx);
-
-			var playerPos=tank.getPos();
+			processTanks(); // Go to the function where we proccess all the tanks.
 		} else {
 			if(logindone) {
 				if(loginrecv.substr(0, 2)=='ok') {
@@ -65,6 +62,13 @@ window.onload=function() { // Makes sure the website is loaded before running co
 };
 
 
+function processTanks(){
+	tank.target(mouse.x, mouse.y);
+	tank.drawAni(ctx);
+
+	var playerPos=tank.getPos();
+}
+
 // Grab the next lines from a string
 function nextLine(str) { return str.substr(str.search('\n')+1); }
 
@@ -87,4 +91,32 @@ function loginsend() {
 		tank.getFace()+'/'+
 		tank.getTarget(), true);
 	login.send();
+};
+
+var posSpamLess=0;
+function posget() {
+	if(this.readyState==4&&this.status==200) {
+		posrecv=this.responseText;
+		posdone=true;
+		console.log(posrecv);
+	}
+};
+function possend() {
+	if(posSpamLess++==3) { // Spams at most half the time :P
+		posSpamLess=0;
+		return;
+	}
+
+	posdone=false;
+	posrecv='';
+	pos.onreadystatechange=posget;
+	pos.open('get',
+		'/pos/'+
+		playerID+'/'+
+		tank._dest.x+'/'+
+		tank._dest.y+'/'+
+		tank.getFace()+'/'+
+		tank.getTarget()+'/'+
+		tank._siegeMode, true);
+	pos.send();
 };

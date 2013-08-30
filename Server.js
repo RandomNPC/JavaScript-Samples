@@ -28,8 +28,22 @@ app.get('/login/*', function(request, response) {
 
 	players.push(player);
 
-	console.log('   Connected: '+JSON.stringify(player));
+	//console.log('   Connected: '+JSON.stringify(player));
 	console.log('   Client '+currentid+', "'+player.name+'", connected   [## of players: '+(++clientCount)+']');
+});
+
+app.get('/pos/*', function(request, response) {
+	var msg='';
+	var params=request.params[0].split('/'); // Split the URL into parts
+	var id=Number(params[0]);
+
+	players[id].pos.x=params[1];
+	players[id].pos.y=params[2];
+	players[id].facing=params[3];
+	players[id].targeting=params[4];
+	players[id].siegeMode=params[5];
+
+	response.end(JSON.stringify(players));
 });
 
 
