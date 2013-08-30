@@ -78,7 +78,11 @@ var Unit_Tank=function() {
 	this.getFace=function() { return this.tankBody._ang; }
 	this.setFace=function(ang) { this.tankBody._ang=ang; }
 	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
-	this.setTarget=function(ang) { this.siegeTurret._ang=this.tankTurret._ang=ang; }
+	this.setTarget=function(ang) {
+		this.siegeTurret._ang=this.tankTurret._ang=ang;
+		this.tankTurret.setAng(ang);
+		this.siegeTurret.setAng(ang);
+	}
 
 	// Point the turret
 	this.target=function(x, y) {
