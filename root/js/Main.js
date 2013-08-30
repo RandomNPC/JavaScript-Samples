@@ -9,7 +9,10 @@ var tank;
 
 var login=new XMLHttpRequest(), logindone, loginrecv;
 var playerName='', playerID=0;
+
+var pos=new XMLHttpRequest(), posdone=true, posrecv='{}';
 var players=new Array();
+
 
 
 window.onload=function() { // Makes sure the website is loaded before running code
@@ -66,6 +69,26 @@ function processTanks(){
 	tank.target(mouse.x, mouse.y);
 	tank.drawAni(ctx);
 
+	if(posdone) {
+		var roster=JSON.parse(posrecv);
+
+		while(players.length<roster.length) { // Populate tank array with new guys
+			var newTank=new Unit_Tank();
+
+			var i=players.length;
+			newTank.name=roster[i].name;
+			newTank.translate(roster[i].pos.x, roster[i].pos.y);
+			newTank.setFace(roster[i].face);
+			newTank.setTarget(roster[i].target);
+			newTank.changeMode(roster[i].siegeMode);
+
+			players.push(newTank);
+			console.log(players)
+		}
+
+		possend();
+	}
+
 	var playerPos=tank.getPos();
 }
 
@@ -76,7 +99,7 @@ function loginget() {
 	if(this.readyState==4&&this.status==200) {
 		loginrecv=this.responseText;
 		logindone=true;
-		console.log(loginrecv);
+		//console.log(loginrecv);
 	}
 };
 function loginsend() {
@@ -98,7 +121,7 @@ function posget() {
 	if(this.readyState==4&&this.status==200) {
 		posrecv=this.responseText;
 		posdone=true;
-		console.log(posrecv);
+		//console.log(posrecv);
 	}
 };
 function possend() {

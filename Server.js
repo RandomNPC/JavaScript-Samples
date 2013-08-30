@@ -22,8 +22,8 @@ app.get('/login/*', function(request, response) {
 	player.name=params[0];
 	player.pos.x=params[1];
 	player.pos.y=params[2];
-	player.facing=params[3];
-	player.targeting=params[4];
+	player.face=params[3];
+	player.target=params[4];
 
 
 	players.push(player);
@@ -39,8 +39,8 @@ app.get('/pos/*', function(request, response) {
 
 	players[id].pos.x=params[1];
 	players[id].pos.y=params[2];
-	players[id].facing=params[3];
-	players[id].targeting=params[4];
+	players[id].face=params[3];
+	players[id].target=params[4];
 	players[id].siegeMode=params[5];
 
 	response.end(JSON.stringify(players));
@@ -50,8 +50,8 @@ app.get('/pos/*', function(request, response) {
 var Player=function() {
 	this.name=''
 	this.pos={ x: 0, y: 0 };
-	this.facing=0;
-	this.targeting=0;
+	this.face=0;
+	this.target=0;
 	this.siegeMode=false;
 }
 
