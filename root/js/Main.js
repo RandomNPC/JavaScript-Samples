@@ -65,7 +65,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 };
 
 
-function processTanks(){
+function processTanks() {
 	tank.target(mouse.x, mouse.y);
 	tank.drawAni(ctx);
 
@@ -106,7 +106,7 @@ function loginsend() {
 	logindone=false;
 	loginrecv='';
 	login.onreadystatechange=loginget;
-	login.open('get', 
+	login.open('get',
 		'/login/'+
 		playerName+'/'+
 		tank.getPos().x+'/'+
