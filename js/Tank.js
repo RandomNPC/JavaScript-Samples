@@ -1,16 +1,9 @@
 ﻿//		Tank Object
 
 
-/*
-	Now I will make a multi-layered sprite.
-	
-	It will have a body & a head, a transformation animation of
-		both parts, & the transformed version of both. [6 sprites]
+var Unit_Tank=function(name) {
+	this.name=name==undefined?'':name;
 
-	This tank is not suppose to be able to drive when transformed.
-*/
-
-var Unit_Tank=function() {
 	this.tankBody;			// There are 6 sprites
 	this.siegeBody;
 	this.siegeBodyTrans;
@@ -35,6 +28,10 @@ var Unit_Tank=function() {
 		if(ctx==undefined) throw ('Context not passed');
 
 		this._transform();
+
+
+		ctx.font='16px Arial';
+		ctx.fillText(this.name, this.tankBody.x-40, this.tankBody.y+40);
 
 		// Draw all sprites
 		if(this.frozen) { // Don't animate the parts if frozen
@@ -71,21 +68,33 @@ var Unit_Tank=function() {
 		this.siegeTurret.translate(x, y);
 	}
 
+	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
 	this.setDest=function(x, y) {
 		this._dest.x=x;
 		this._dest.y=y;
 		this.atDest=false;
 	}
-	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
+
+	this.getFace=function() { return this.tankBody._ang; }
+	this.setFace=function(ang) { this.tankBody._ang=ang; }
+	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
+	this.setTarget=function(ang) {
+		this.tankTurret.setAng(ang);
+		this.siegeTurret.setAng(ang);
+	}
 
 	// Point the turret
-	this.target=function(x, y) {
+	this.target=function(x, y) { // 2 overloads
 		if(this._siegeLock) return false; // Prevent lockups during transform
 		var targeted;
 
-		// Have the turrets in both modes rotate at different speeds
-		if(this._siegeMode) this.siegeTurret.turn(x, y);
-		else targeted=this.tankTurret.turn(x, y);
+		if(y==undefined) { // target(angle)
+			if(this._siegeMode) this.siegeTurret.turn(x);
+			else targeted=this.tankTurret.turn(x);
+		} else { // target(x, y)
+			if(this._siegeMode) this.siegeTurret.turn(x, y);
+			else targeted=this.tankTurret.turn(x, y);
+		}
 		return targeted;
 	}
 
@@ -102,10 +111,12 @@ var Unit_Tank=function() {
 	}
 
 	// For transformation between the 2 modes
-	this.changeMode=function() {
-		this._siegeMode=!this._siegeMode;
-		this._siegeLock=true;
-		this._movable=false;
+	this.changeMode=function(mode) {
+		if(mode==undefined||this._siegeMode!=mode) {
+			this._siegeMode=!this._siegeMode;
+			this._siegeLock=true;
+			this._movable=false;
+		}
 	}
 	this._transform=function() {
 		var turned=true;
