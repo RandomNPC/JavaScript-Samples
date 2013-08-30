@@ -182,7 +182,6 @@ var Sprite=function(id) {
 		*/
 		var diff=destAng-this._ang; // Get the difference in angle
 		if(Math.abs(diff.toFixed(8))!=0) {
-			console.log(diff);
 			if(diff<0) diff+=Math.PI*2;
 
 			if(destAng<this._ang) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
