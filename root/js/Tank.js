@@ -79,19 +79,22 @@ var Unit_Tank=function() {
 	this.setFace=function(ang) { this.tankBody._ang=ang; }
 	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
 	this.setTarget=function(ang) {
-		this.siegeTurret._ang=this.tankTurret._ang=ang;
 		this.tankTurret.setAng(ang);
 		this.siegeTurret.setAng(ang);
 	}
 
 	// Point the turret
-	this.target=function(x, y) {
+	this.target=function(x, y) { // 2 overloads
 		if(this._siegeLock) return false; // Prevent lockups during transform
 		var targeted;
 
-		// Have the turrets in both modes rotate at different speeds
-		if(this._siegeMode) this.siegeTurret.turn(x, y);
-		else targeted=this.tankTurret.turn(x, y);
+		if(y==undefined) { // target(angle)
+			if(this._siegeMode) this.siegeTurret.turn(x);
+			else targeted=this.tankTurret.turn(x);
+		} else { // target(x, y)
+			if(this._siegeMode) this.siegeTurret.turn(x, y);
+			else targeted=this.tankTurret.turn(x, y);
+		}
 		return targeted;
 	}
 
