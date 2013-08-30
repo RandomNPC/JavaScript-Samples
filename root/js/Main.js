@@ -76,6 +76,6 @@ function loginsend() {
 	logindone=false;
 	loginrecv='';
 	login.onreadystatechange=loginget;
-	login.open('get', '/login', true);
+	login.open('get', '/login/temp', true);
 	login.send();
 };
