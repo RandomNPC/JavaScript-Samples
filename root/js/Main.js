@@ -4,7 +4,11 @@
 var canvas, ctx;
 var mouse={ x: 0, y: 0 };
 
-var tankBody;
+var tank;
+
+
+var login=new XMLHttpRequest(), logindone, loginrecv;
+var playerName='';
 
 
 
@@ -15,11 +19,25 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	tank=new Unit_Tank('tankBody');
 	tank.translate(64, 90);
 
+	while(playerName.length==0) playerName=prompt('Pick a name');
+	loginsend();
+
 
 	setInterval(function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		tank.target(mouse.x, mouse.y);
-		tank.drawAni(ctx);
+		if(tank.name.length!=0) {
+			tank.target(mouse.x, mouse.y);
+			tank.drawAni(ctx);
+
+			var playerPos=tank.getPos();
+		} else {
+			if(logindone) {
+				if(loginrecv.substr(0, 2)=='ok') tank.name=playerName+' ['+nextLine(loginrecv)+']';
+			} else {
+				ctx.font='24px Arial';
+				ctx.fillText('Logging In...', 8, 24);
+			}
+		}
 	}, 42);
 
 
@@ -41,4 +59,23 @@ window.onload=function() { // Makes sure the website is loaded before running co
 				break;
 		}
 	}
+};
+
+
+// Grab the next lines from a string
+function nextLine(str) { return str.substr(str.search('\n')+1); }
+
+function loginget() {
+	if(this.readyState==4&&this.status==200) {
+		loginrecv=this.responseText;
+		logindone=true;
+		console.log(loginrecv);
+	}
+};
+function loginsend() {
+	logindone=false;
+	loginrecv='';
+	login.onreadystatechange=loginget;
+	login.open('get', '/login', true);
+	login.send();
 };

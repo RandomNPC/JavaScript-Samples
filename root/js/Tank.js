@@ -1,16 +1,9 @@
 ﻿//		Tank Object
 
 
-/*
-	Now I will make a multi-layered sprite.
-	
-	It will have a body & a head, a transformation animation of
-		both parts, & the transformed version of both. [6 sprites]
-
-	This tank is not suppose to be able to drive when transformed.
-*/
-
 var Unit_Tank=function() {
+	this.name='';
+
 	this.tankBody;			// There are 6 sprites
 	this.siegeBody;
 	this.siegeBodyTrans;
@@ -35,6 +28,10 @@ var Unit_Tank=function() {
 		if(ctx==undefined) throw ('Context not passed');
 
 		this._transform();
+
+
+		ctx.font='16px Arial';
+		ctx.fillText(this.name, this.tankBody.x-40, this.tankBody.y+40);
 
 		// Draw all sprites
 		if(this.frozen) { // Don't animate the parts if frozen
@@ -77,6 +74,9 @@ var Unit_Tank=function() {
 		this.atDest=false;
 	}
 	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
+
+	this.getFace=function() { return this.tankBody._ang; }
+	this.getTarget=function() { return this.tankTurret._ang; }
 
 	// Point the turret
 	this.target=function(x, y) {
