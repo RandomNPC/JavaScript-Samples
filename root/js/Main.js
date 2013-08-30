@@ -8,7 +8,7 @@ var tank;
 
 
 var login=new XMLHttpRequest(), logindone, loginrecv;
-var playerName='';
+var playerName='', playerID=0;
 
 
 
@@ -32,7 +32,10 @@ window.onload=function() { // Makes sure the website is loaded before running co
 			var playerPos=tank.getPos();
 		} else {
 			if(logindone) {
-				if(loginrecv.substr(0, 2)=='ok') tank.name=playerName+' ['+nextLine(loginrecv)+']';
+				if(loginrecv.substr(0, 2)=='ok') {
+					tank.name=playerName+' [id: '+nextLine(loginrecv)+']';
+					playerID=Number(nextLine(loginrecv));
+				}
 			} else {
 				ctx.font='24px Arial';
 				ctx.fillText('Logging In...', 8, 24);

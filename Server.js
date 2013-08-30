@@ -14,7 +14,7 @@ var players=new Array();
 app.get('/login/*', function(request, response) {
 	var msg='';
 	msg+='ok login\n';
-	msg+='id '+(currentid++);
+	msg+=currentid++;
 	response.end(msg);
 
 	var player=new Player();
