@@ -76,6 +76,12 @@ function loginsend() {
 	logindone=false;
 	loginrecv='';
 	login.onreadystatechange=loginget;
-	login.open('get', '/login/temp', true);
+	login.open('get', 
+		'/login/'+
+		playerName+'/'+
+		tank.getPos().x+'/'+
+		tank.getPos().y+'/'+
+		tank.getFace()+'/'+
+		tank.getTarget(), true);
 	login.send();
 };

@@ -18,14 +18,17 @@ app.get('/login/*', function(request, response) {
 	response.end(msg);
 
 	var player=new Player();
-	player.name=request.params[0];
-	player.pos.x=request.params[1];
-	player.pos.y=request.params[2];
-	player.facing=request.params[3];
-	player.targeting=request.params[4];
+	var params=request.params[0].split('/'); // Split the URL into parts
+	player.name=params[0];
+	player.pos.x=params[1];
+	player.pos.y=params[2];
+	player.facing=params[3];
+	player.targeting=params[4];
+
 
 	players.push(player);
 
+	console.log('   Connected: '+JSON.stringify(player));
 	console.log('   Client '+currentid+', "'+player.name+'", connected   [## of players: '+(++clientCount)+']');
 });
 
@@ -37,5 +40,6 @@ var Player=function() {
 	this.targeting=0;
 	this.siegeMode=false;
 }
+
 
 app.listen(80);
