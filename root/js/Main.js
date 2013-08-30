@@ -1,4 +1,4 @@
-//		Main Code
+﻿//		Main Code
 
 
 var canvas, ctx;
