@@ -12,7 +12,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	canvas=document.getElementById('canvas');
 	ctx=canvas.getContext('2d');
 
-	tank=new Unit_Tank('tankBody');
+	tank=new Unit_Tank('Siege Tank');
 	tank.translate(64, 90);
 
 
