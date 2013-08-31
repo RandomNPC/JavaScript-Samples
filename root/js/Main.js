@@ -39,7 +39,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 							playerID=Number(nextLine(loginrecv));
 							tank=players[playerID];
 						} else { // If download fails
-							loginsend();
+							//loginsend();
 						}
 					} else {
 						ctx.font='24px Arial';

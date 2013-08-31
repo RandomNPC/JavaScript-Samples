@@ -18,8 +18,8 @@ app.get('/login/*', function(request, response) {
 	player.name=request.params[0];
 
 	var checkExist=-1; // -1 = new player; anything else is the player ID
-	for(var i=0; i<players.length; i++) if(players[i].name==player.name) checkExist=i;
-
+	for(var i=0; i<players.length; i++) if(players[i].name.toLowerCase()==player.name.toLowerCase()) checkExist=i;
+	
 	if(checkExist==-1) { // New player
 		++clientCount;
 		msg+='ok new guy\n';
@@ -27,13 +27,14 @@ app.get('/login/*', function(request, response) {
 		response.end(msg);
 		players.push(player);
 
-		console.log(currentid+' joined'+'   ['+clientCount+' players]');
+		console.log('   NEW       "'+player.name+'" joined'+'   ['+clientCount+' players]');
 	} else { // Returning player
 		msg+='ok login\n';
 		msg+=checkExist;
 		response.end(msg);
+		players[checkExist].name=player.name;
 
-		console.log('         Client '+currentid+': "'+player.name+'"');
+		console.log('        OLD  "'+player.name+'" joined');
 	}
 });
 
