@@ -137,7 +137,7 @@ var Unit_Tank=function(name) {
 
 	// For transformation between the 2 modes
 	this.changeMode=function(mode) {
-		if(typeof mode!='boolean') throw (this.id+': changeMode(mode) parameter "mode" must be a boolean; got a typeof('+mode+')=='+typeof mode);
+		if(typeof mode!='boolean'&&mode!=undefined) throw (this.id+': changeMode(mode) parameter "mode" must be a boolean; got a typeof('+mode+')=='+typeof mode);
 
 		if(mode==undefined||this._siegeMode!=mode) {
 			this._siegeMode=!this._siegeMode;
