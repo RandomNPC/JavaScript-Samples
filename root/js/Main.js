@@ -8,7 +8,7 @@ var tank;
 
 
 var login=new XMLHttpRequest(), logindone, loginrecv;
-var playerName='', playerID=0;
+var playerName='', playerID=-1;
 
 var pos=new XMLHttpRequest(), posdone=true, posrecv='{}';
 var players=new Array(); // players is the array of Sprites of everyone
@@ -20,7 +20,6 @@ window.onload=function() { // Makes sure the website is loaded before running co
 	ctx=canvas.getContext('2d');
 
 	tank=new Unit_Tank();
-	tank.translate(64, 90);
 
 	while(playerName.length==0) playerName=prompt('Pick a name');
 	if(playerName==null) return;
@@ -34,8 +33,18 @@ window.onload=function() { // Makes sure the website is loaded before running co
 		} else {
 			if(logindone) {
 				if(loginrecv.substr(0, 2)=='ok') {
-					tank.name=playerName+' [id: '+nextLine(loginrecv)+']';
-					playerID=Number(nextLine(loginrecv));
+					if(posdone) {
+						processTanks(); // Get the list of players
+						if(0<players.length) {
+							playerID=Number(nextLine(loginrecv));
+							tank=players[playerID];
+						} else { // If download fails
+							loginsend();
+						}
+					} else {
+						ctx.font='24px Arial';
+						ctx.fillText('Getting data...', 8, 24);
+					}
 				}
 			} else {
 				ctx.font='24px Arial';
@@ -74,7 +83,7 @@ function processTanks() {
 			var newTank=new Unit_Tank();
 
 			var i=players.length;
-			newTank.name=roster[i].name+' [id: '+i+']';
+			newTank.name=roster[i].name;
 			newTank.translate(Number(roster[i].pos.x), Number(roster[i].pos.y));
 			newTank.setFace(Number(roster[i].face));
 			newTank.setTarget(Number(roster[i].target));
@@ -118,17 +127,10 @@ function loginsend() {
 	logindone=false;
 	loginrecv='';
 	login.onreadystatechange=loginget;
-	login.open('get',
-		'/login/'+
-		playerName+'/'+
-		tank.getPos().x+'/'+
-		tank.getPos().y+'/'+
-		tank.getFace()+'/'+
-		tank.getTarget(), true);
+	login.open('get', '/login/'+playerName, true);
 	login.send();
 };
 
-var posSpamLess=1;
 function posget() {
 	if(this.readyState==4&&this.status==200) {
 		posrecv=this.responseText;
@@ -137,9 +139,6 @@ function posget() {
 	}
 };
 function possend() {
-	if(posSpamLess++<1) return; // Spams at most half the time :P
-	posSpamLess=0;
-
 	var x=tank.atDest?tank.getPos().x:tank._dest.x;
 	var y=tank.atDest?tank.getPos().y:tank._dest.y;
 

@@ -13,23 +13,28 @@ var players=new Array();
 
 app.get('/login/*', function(request, response) {
 	var msg='';
-	msg+='ok login\n';
-	msg+=currentid++;
-	response.end(msg);
 
 	var player=new Player();
-	var params=request.params[0].split('/'); // Split the URL into parts
-	player.name=params[0];
-	player.pos.x=params[1];
-	player.pos.y=params[2];
-	player.face=params[3];
-	player.target=params[4];
+	player.name=request.params[0];
 
+	var checkExist=-1; // -1 = new player; anything else is the player ID
+	for(var i=0; i<players.length; i++) if(players[i].name==player.name) checkExist=i;
 
-	players.push(player);
+	if(checkExist==-1) { // New player
+		++clientCount;
+		msg+='ok new guy\n';
+		msg+=currentid++;
+		response.end(msg);
+		players.push(player);
 
-	//console.log('   Connected: '+JSON.stringify(player));
-	console.log('   Client '+currentid+', "'+player.name+'", connected   [## of players: '+(++clientCount)+']');
+		console.log(currentid+' joined'+'   ['+clientCount+' players]');
+	} else { // Returning player
+		msg+='ok login\n';
+		msg+=checkExist;
+		response.end(msg);
+
+		console.log('         Client '+currentid+': "'+player.name+'"');
+	}
 });
 
 app.get('/pos/*', function(request, response) {
@@ -37,11 +42,14 @@ app.get('/pos/*', function(request, response) {
 	var params=request.params[0].split('/'); // Split the URL into parts
 	var id=Number(params[0]);
 
-	players[id].pos.x=params[1];
-	players[id].pos.y=params[2];
-	players[id].face=params[3];
-	players[id].target=params[4];
-	players[id].siegeMode=params[5];
+
+	if(id!=-1) {
+		players[id].pos.x=params[1];
+		players[id].pos.y=params[2];
+		players[id].face=params[3];
+		players[id].target=params[4];
+		players[id].siegeMode=params[5];
+	}
 
 	response.end(JSON.stringify(players));
 });
