@@ -59,8 +59,8 @@ var Sprite=function(id) {
 
 	// Draws to canvas only
 	this.draw=function(ctx) {
-		if(ctx==undefined) throw ('Context not passed');
-		if(this.id==null) throw ('Sprite not initialized');
+		if(ctx==undefined) throw (this.id+': context not passed');
+		if(this.id==null) throw (this.id+': sprite not initialized');
 
 		this._stepped=0;
 
@@ -82,6 +82,9 @@ var Sprite=function(id) {
 
 	// Translates the object to this cord [basically teleport]
 	this.translate=function(x, y) {
+		if(typeof x!='number') throw (this.id+': translate(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': translate(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		this.x=x;
 		this.y=y;
 	}
@@ -89,6 +92,10 @@ var Sprite=function(id) {
 	// Moves a small amout to the specified direction.
 	// This steps in the animation.
 	this.move=function(x, y, v) {
+		if(typeof x!='number') throw (this.id+': move(x, y, v) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': move(x, y, v) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof v!='number'&&v!=undefined) throw (this.id+': move(x, y, v) parameter "v" must be a number; got a typeof('+v+')=='+typeof v);
+
 		if(v==undefined) v=this.vel;
 		else this.vel=v;
 
@@ -125,34 +132,47 @@ var Sprite=function(id) {
 		return this._ang;
 	}
 	this.setAng=function(angle) {
+		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
+
 		this._ang=angle;
 		this._alt=this._getAngleIndex(angle);
 	}
 
 	// Face the sprite in a direction
-	this.face=function(x, y) {
-		var destAng=0;
-		x=x-this.x;
-		y=y-this.y;
+	this.face=function(x, y) { // 1 overload
+		if(typeof x!='number') throw (this.id+': face(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': face(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
 
-		if(x!=0||y!=0) {
-			if(y==0) {
-				destAng=Math.PI/2;
-				if(x<0) destAng+=Math.PI;
-			} else {
-				destAng=Math.atan(x/y);
-				if(y<0) destAng+=Math.PI;
+		if(y==undefined) { // face(angle)
+			this._ang=x;
+			this._alt=this._getAngleIndex(x);
+		} else { // face(x, y)
+			var destAng=0;
+			x=x-this.x;
+			y=y-this.y;
+
+			if(x!=0||y!=0) {
+				if(y==0) {
+					destAng=Math.PI/2;
+					if(x<0) destAng+=Math.PI;
+				} else {
+					destAng=Math.atan(x/y);
+					if(y<0) destAng+=Math.PI;
+				}
+				destAng+=Math.PI*3/2; // Prevents negative values
+				destAng%=Math.PI*2;
+
+				this._ang=destAng;
+				this._alt=this._getAngleIndex(destAng);
 			}
-			destAng+=Math.PI*3/2; // Prevents negative values
-			destAng%=Math.PI*2;
-
-			this._ang=destAng;
-			this._alt=this._getAngleIndex(destAng);
 		}
 	}
 
 	// Animate a turn towards a direction
-	this.turn=function(x, y) { // 2 overloads
+	this.turn=function(x, y) { // 1 overload
+		if(typeof x!='number') throw (this.id+': turn(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': turn(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		var destAng=0, finalDest=0;
 
 		if(y==undefined) { // turn(angle)
@@ -241,6 +261,9 @@ var Sprite=function(id) {
 
 	// Sets the size of the tiles & calculates how many frames there are
 	this.setTileSize=function(sizeX, sizeY) {
+		if(typeof sizeX!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter "sizeX" must be a number; got a typeof('+sizeX+')=='+typeof sizeX);
+		if(typeof sizeY!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter "sizeY" must be a number; got a typeof('+sizeY+')=='+typeof sizeY);
+
 		this.sizeX=sizeX;
 		this.sizeY=sizeY;
 
@@ -259,6 +282,8 @@ var Sprite=function(id) {
 
 	// Return an index from the angle
 	this._getAngleIndex=function(angle) {
+		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
+
 		// Debug to catch out of bound angles
 		if(angle<0) throw (this.id+' call to _getAngleIndex('+angle+'), angle < 0');
 		if(Math.PI*2<angle) throw (this.id+' call to _getAngleIndex('+angle+'), 2π < angle');
