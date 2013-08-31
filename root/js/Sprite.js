@@ -36,7 +36,7 @@ var Sprite=function(id) {
 	this._frameTimeMax=4;
 	this._alt=0;			// < Alternate views [different angles]
 	this._altCount=0;
-	this._ang=0;
+	this._angle=0;
 
 	this._lastSheetPos={ u: 0, v: 0 };
 
@@ -82,8 +82,8 @@ var Sprite=function(id) {
 
 	// Translates the object to this cord [basically teleport]
 	this.translate=function(x, y) {
-		if(typeof x!='number') throw (this.id+': translate(x, y) parameter x must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number') throw (this.id+': translate(x, y) parameter y must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof x!='number') throw (this.id+': translate(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': translate(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
 
 		this.x=x;
 		this.y=y;
@@ -92,9 +92,9 @@ var Sprite=function(id) {
 	// Moves a small amout to the specified direction.
 	// This steps in the animation.
 	this.move=function(x, y, v) {
-		if(typeof x!='number') throw (this.id+': move(x, y, v) parameter x must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number') throw (this.id+': move(x, y, v) parameter y must be a number; got a typeof('+y+')=='+typeof y);
-		if(typeof v!='number'&&v!=undefined) throw (this.id+': move(x, y, v) parameter v must be a number; got a typeof('+v+')=='+typeof v);
+		if(typeof x!='number') throw (this.id+': move(x, y, v) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': move(x, y, v) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof v!='number'&&v!=undefined) throw (this.id+': move(x, y, v) parameter "v" must be a number; got a typeof('+v+')=='+typeof v);
 
 		if(v==undefined) v=this.vel;
 		else this.vel=v;
@@ -129,22 +129,22 @@ var Sprite=function(id) {
 	}
 
 	this.getAng=function() {
-		return this._ang;
+		return this._angle;
 	}
 	this.setAng=function(angle) {
-		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter angle must be a number; got a typeof('+angle+')=='+typeof angle);
+		if(typeof angle!='number') throw (this.id+': setAng(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
 
-		this._ang=angle;
+		this._angle=angle;
 		this._alt=this._getAngleIndex(angle);
 	}
 
 	// Face the sprite in a direction
 	this.face=function(x, y) { // 1 overload
-		if(typeof x!='number') throw (this.id+': face(x, y) parameter x must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number'&&y!=undefined) throw (this.id+': face(x, y) parameter y must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof x!='number') throw (this.id+': face(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': face(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
 
 		if(y==undefined) { // face(angle)
-			this._ang=x;
+			this._angle=x;
 			this._alt=this._getAngleIndex(x);
 		} else { // face(x, y)
 			var destAng=0;
@@ -162,7 +162,7 @@ var Sprite=function(id) {
 				destAng+=Math.PI*3/2; // Prevents negative values
 				destAng%=Math.PI*2;
 
-				this._ang=destAng;
+				this._angle=destAng;
 				this._alt=this._getAngleIndex(destAng);
 			}
 		}
@@ -170,8 +170,8 @@ var Sprite=function(id) {
 
 	// Animate a turn towards a direction
 	this.turn=function(x, y) { // 1 overload
-		if(typeof x!='number') throw (this.id+': turn(x, y) parameter x must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number'&&y!=undefined) throw (this.id+': turn(x, y) parameter y must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof x!='number') throw (this.id+': turn(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': turn(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
 
 		var destAng=0, finalDest=0;
 
@@ -200,23 +200,23 @@ var Sprite=function(id) {
 			Above is the normal stuff.
 			Here is where it gets super complicated.
 		*/
-		var diff=destAng-this._ang; // Get the difference in angle
+		var diff=destAng-this._angle; // Get the difference in angle
 		if(Math.abs(diff.toFixed(8))!=0) {
 			if(diff<0) diff+=Math.PI*2;
 
-			if(destAng<this._ang) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
+			if(destAng<this._angle) destAng+=Math.PI*2; // Adjust to get a difference [related to unit circle]
 			if(Math.PI<diff) diff-=Math.PI*2; // Adjust to make it from -π to π
 
-			if(Math.abs(diff)<=this.angVel) this._ang=destAng; // Snap to destination
-			else this._ang+=diff<0?-this.angVel:this.angVel; // Turn towards the destination
+			if(Math.abs(diff)<=this.angVel) this._angle=destAng; // Snap to destination
+			else this._angle+=diff<0?-this.angVel:this.angVel; // Turn towards the destination
 
-			this._ang=(this._ang+Math.PI*2)%(Math.PI*2);
-			this._alt=this._getAngleIndex(this._ang);
+			this._angle=(this._angle+Math.PI*2)%(Math.PI*2);
+			this._alt=this._getAngleIndex(this._angle);
 
 		}
 
 		// Return false if not facing the target
-		return (this._ang.toFixed(8)==finalDest.toFixed(8));
+		return (this._angle.toFixed(8)==finalDest.toFixed(8));
 	}
 
 	// This steps in the animation
@@ -261,8 +261,8 @@ var Sprite=function(id) {
 
 	// Sets the size of the tiles & calculates how many frames there are
 	this.setTileSize=function(sizeX, sizeY) {
-		if(typeof sizeX!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter sizeX must be a number; got a typeof('+sizeX+')=='+typeof sizeX);
-		if(typeof sizeY!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter sizeY must be a number; got a typeof('+sizeY+')=='+typeof sizeY);
+		if(typeof sizeX!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter "sizeX" must be a number; got a typeof('+sizeX+')=='+typeof sizeX);
+		if(typeof sizeY!='number') throw (this.id+': setTileSize(sizeX, sizeY) parameter "sizeY" must be a number; got a typeof('+sizeY+')=='+typeof sizeY);
 
 		this.sizeX=sizeX;
 		this.sizeY=sizeY;
@@ -282,7 +282,7 @@ var Sprite=function(id) {
 
 	// Return an index from the angle
 	this._getAngleIndex=function(angle) {
-		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter angle must be a number; got a typeof('+angle+')=='+typeof angle);
+		if(typeof angle!='number') throw (this.id+': _getAngleIndex(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
 
 		// Debug to catch out of bound angles
 		if(angle<0) throw (this.id+' call to _getAngleIndex('+angle+'), angle < 0');
