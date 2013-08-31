@@ -81,18 +81,18 @@ var Unit_Tank=function(name) {
 		this.atDest=false;
 	}
 
-	this.getFace=function() { return this.tankBody._ang; }
-	this.setFace=function(ang) {
-		if(typeof ang!='number') throw (this.id+': setFace(ang) parameter "ang" must be a number; got a typeof('+ang+')=='+typeof ang);
+	this.getFace=function() { return this.tankBody._angle; }
+	this.setFace=function(angle) {
+		if(typeof angle!='number') throw (this.id+': setFace(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
 
-		this.tankBody._ang=ang;
+		this.tankBody._angle=angle;
 	}
-	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
-	this.setTarget=function(ang) {
-		if(typeof ang!='number') throw (this.id+': setTarget(ang) parameter "ang" must be a number; got a typeof('+ang+')=='+typeof ang);
+	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._angle:this.tankTurret._angle); }
+	this.setTarget=function(angle) {
+		if(typeof angle!='number') throw (this.id+': setTarget(angle) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
 
-		this.tankTurret.setAng(ang);
-		this.siegeTurret.setAng(ang);
+		this.tankTurret.setAng(angle);
+		this.siegeTurret.setAng(angle);
 	}
 
 	// Point the turret
@@ -121,17 +121,17 @@ var Unit_Tank=function(name) {
 		var lastAng=this.tankBody.getAng();
 		var targeted;
 
-		if(y==undefined) { // turn(ang)
+		if(y==undefined) { // turn(angle)
 			targeted=this.tankBody.turn(x);
 		} else {
 			targeted=this.tankBody.turn(x, y);
 		}
 
 		var diff=this.tankBody.getAng()-lastAng;
-		var ang=this.tankTurret.getAng()+diff;
-		ang+=Math.PI*2;
-		ang%=Math.PI*2;
-		this.tankTurret.setAng(ang);
+		var angle=this.tankTurret.getAng()+diff;
+		angle+=Math.PI*2;
+		angle%=Math.PI*2;
+		this.tankTurret.setAng(angle);
 		return targeted;
 	}
 
