@@ -59,6 +59,9 @@ var Unit_Tank=function(name) {
 	}
 
 	this.translate=function(x, y) {
+		if(typeof x!='number') throw (this.id+': translate(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': translate(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		this.siegeBodyTrans.translate(x, y);
 		this.tankBody.translate(x, y);
 		this.siegeBody.translate(x, y);
@@ -70,21 +73,33 @@ var Unit_Tank=function(name) {
 
 	this.getPos=function() { return { x: this.tankBody.x, y: this.tankBody.y }; }
 	this.setDest=function(x, y) {
+		if(typeof x!='number') throw (this.id+': setDest(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': setDest(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		this._dest.x=x;
 		this._dest.y=y;
 		this.atDest=false;
 	}
 
 	this.getFace=function() { return this.tankBody._ang; }
-	this.setFace=function(ang) { this.tankBody._ang=ang; }
+	this.setFace=function(ang) {
+		if(typeof ang!='number') throw (this.id+': setFace(ang) parameter "ang" must be a number; got a typeof('+ang+')=='+typeof ang);
+
+		this.tankBody._ang=ang;
+	}
 	this.getTarget=function() { return (this._siegeMode?this.siegeTurret._ang:this.tankTurret._ang); }
 	this.setTarget=function(ang) {
+		if(typeof ang!='number') throw (this.id+': setTarget(ang) parameter "ang" must be a number; got a typeof('+ang+')=='+typeof ang);
+
 		this.tankTurret.setAng(ang);
 		this.siegeTurret.setAng(ang);
 	}
 
 	// Point the turret
-	this.target=function(x, y) { // 2 overloads
+	this.target=function(x, y) { // 1 overload
+		if(typeof x!='number') throw (this.id+': target(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': target(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		if(this._siegeLock) return false; // Prevent lockups during transform
 		var targeted;
 
@@ -99,9 +114,19 @@ var Unit_Tank=function(name) {
 	}
 
 	// Turn the tank
-	this.turn=function(x, y) {
+	this.turn=function(x, y) { // 1 overload
+		if(typeof x!='number') throw (this.id+': turn(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number'&&y!=undefined) throw (this.id+': turn(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+
 		var lastAng=this.tankBody.getAng();
-		var targeted=this.tankBody.turn(x, y);
+		var targeted;
+
+		if(y==undefined) { // turn(ang)
+			targeted=this.tankBody.turn(x);
+		} else {
+			targeted=this.tankBody.turn(x, y);
+		}
+
 		var diff=this.tankBody.getAng()-lastAng;
 		var ang=this.tankTurret.getAng()+diff;
 		ang+=Math.PI*2;
@@ -112,6 +137,8 @@ var Unit_Tank=function(name) {
 
 	// For transformation between the 2 modes
 	this.changeMode=function(mode) {
+		if(typeof mode!='boolean') throw (this.id+': changeMode(mode) parameter "mode" must be a boolean; got a typeof('+mode+')=='+typeof mode);
+
 		if(mode==undefined||this._siegeMode!=mode) {
 			this._siegeMode=!this._siegeMode;
 			this._siegeLock=true;
