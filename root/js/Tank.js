@@ -148,16 +148,13 @@ var Unit_Tank=function(name) {
 
 		var x=this._siegeMode?this.siegeTurret.x:this.tankTurret.x;
 		var y=this._siegeMode?this.siegeTurret.y:this.tankTurret.y;
+
 		var angle=this._siegeMode?this.siegeTurret.getAng():this.tankTurret.getAng();
+		var distance=this._siegeMode?600:200;
+		var vel=this._siegeMode?10:4;
 
-		var distance=this._siegeMode?800:200;
-		var vel=this._siegeMode?8:4;
-
-		var destX=x+distance*Math.cos(angle);
-		var destY=y+distance*-Math.sin(angle);
-
-		this.projectile.fire(x, y, destX, destY, vel);
-
+		this.projectile.siegeMode=this._siegeMode;
+		return this.projectile.fire(x, y, angle, distance, vel);
 	}
 
 	// For transformation between the 2 modes
