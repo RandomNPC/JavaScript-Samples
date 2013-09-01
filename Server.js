@@ -1,6 +1,4 @@
-﻿/*
-*/
-
+﻿//require("cf-autoconfig");
 var express=require('express');
 var app=express();
 
@@ -19,7 +17,7 @@ app.get('/login/*', function(request, response) {
 
 	var checkExist=-1; // -1 = new player; anything else is the player ID
 	for(var i=0; i<players.length; i++) if(players[i].name.toLowerCase()==player.name.toLowerCase()) checkExist=i;
-	
+
 	if(checkExist==-1) { // New player
 		++clientCount;
 		msg+='ok new guy\n';
