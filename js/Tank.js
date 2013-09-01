@@ -150,9 +150,10 @@ var Unit_Tank=function(name) {
 		var y=this._siegeMode?this.siegeTurret.y:this.tankTurret.y;
 
 		var angle=this._siegeMode?this.siegeTurret.getAng():this.tankTurret.getAng();
-		var distance=this._siegeMode?800:200;
-		var vel=this._siegeMode?8:4;
+		var distance=this._siegeMode?600:200;
+		var vel=this._siegeMode?10:4;
 
+		this.projectile.siegeMode=this._siegeMode;
 		this.projectile.fire(x, y, angle, distance, vel);
 	}
 
