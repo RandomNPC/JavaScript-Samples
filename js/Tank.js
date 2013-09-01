@@ -276,7 +276,7 @@ var Unit_Tank=function(name) {
 		this.tankTurret=new Sprite('tankTurret');
 		this.tankTurret.midY+=12; // Changing the midpoint of the picture to be lower
 		this.tankTurret.idle=true;
-		this.tankTurret.angVel=Math.PI/8;
+		this.tankTurret.angVel=Math.PI/16;
 
 		// Sprite for siege tank's body
 		this.siegeBody=new Sprite('siegeBody');
@@ -289,7 +289,7 @@ var Unit_Tank=function(name) {
 
 		// Sprite for the body's transformation 
 		this.siegeBodyTrans=new Sprite('siegeBodyTransform');
-		this.siegeBodyTrans.frameTimeMax=8;
+		this.siegeBodyTrans.frameTimeMax=16;
 		this.siegeBodyTrans.loop=false; // Prevent the animation from looping
 		this.siegeBodyTrans.reverse=true;
 		this.siegeBodyTrans.hide=true;
@@ -297,7 +297,7 @@ var Unit_Tank=function(name) {
 		// Sprite for the turret's transformation
 		this.siegeTurretTrans=new Sprite('siegeTurretTransform');
 		this.siegeTurretTrans.midY+=12;
-		this.siegeTurretTrans.frameTimeMax=8;
+		this.siegeTurretTrans.frameTimeMax=16;
 		this.siegeTurretTrans.loop=false;
 		this.siegeTurretTrans.reverse=true;
 		this.siegeTurretTrans.hide=true;

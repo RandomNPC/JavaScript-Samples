@@ -115,11 +115,11 @@ var Unit_Bullet=function(name) {
 	this._initSprites=function() {
 		this.projectile=new Sprite('nyanCat');
 		this.projectile.setTileSize(64, 64);
-		this.projectile.setFrameTime(2);
+		this.projectile.setFrameTime(4);
 
 		this.trail=new Sprite('rainbow');
 		this.trail.setTileSize(64, 64);
-		this.trail.setFrameTime(2);
+		this.trail.setFrameTime(4);
 	}
 
 
