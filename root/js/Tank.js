@@ -144,7 +144,7 @@ var Unit_Tank=function(name) {
 
 	// Fires a projectile from position to destination
 	this.fire=function() {
-		if(this._siegeLock||this.projectile.getAlive()) return;
+		if(this._siegeLock||this.projectile.getAlive()) return {};
 
 		var x=this._siegeMode?this.siegeTurret.x:this.tankTurret.x;
 		var y=this._siegeMode?this.siegeTurret.y:this.tankTurret.y;

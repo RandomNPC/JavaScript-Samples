@@ -69,7 +69,14 @@ window.onload=function() { // Makes sure the website is loaded before running co
 				tank.changeMode();
 				break;
 			case 32: // Space
-				tank.fire();
+				var projectileData=tank.fire();
+				if(0<projectileData.length) {
+					console.log(projectileData);
+
+					// The tank fired
+					// Tell the server here
+
+				}
 				break;
 		}
 	}
