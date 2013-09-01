@@ -278,6 +278,14 @@ var Sprite=function(id) {
 		this._altCount=Math.floor(this.img.height/this.sizeY);
 	}
 
+	// Sets the time for each frame
+	this.setFrameTime=function(frameTimeMax) {
+		if(typeof frameTimeMax!='number') throw (this.id+': setFrameTime(frameTimeMax) parameter "frameTimeMax" must be a number; got a typeof('+frameTimeMax+')=='+typeof frameTimeMax);
+
+		this._frameTime=0;
+		this._frameTimeMax=frameTimeMax;
+	}
+
 
 
 	// Return an index from the angle
