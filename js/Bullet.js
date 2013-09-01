@@ -74,11 +74,15 @@ var Unit_Bullet=function(name) {
 	}
 
 	// Fires a projectile from position to destination
-	this.fire=function(x, y, destX, destY) {
-		if(typeof x!='number') throw (this.id+': fire(x, y, destX, destY) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number') throw (this.id+': fire(x, y, destX, destY) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
-		if(typeof destX!='number') throw (this.id+': fire(x, y, destX, destY) parameter "destX" must be a number; got a typeof('+destX+')=='+typeof destX);
-		if(typeof destY!='number') throw (this.id+': fire(x, y, destX, destY) parameter "destY" must be a number; got a typeof('+destY+')=='+typeof destY);
+	this.fire=function(x, y, destX, destY, vel) {
+		if(typeof x!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof destX!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "destX" must be a number; got a typeof('+destX+')=='+typeof destX);
+		if(typeof destY!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "destY" must be a number; got a typeof('+destY+')=='+typeof destY);
+		if(typeof vel!='number'&&vel!=undefined) throw (this.id+': fire(x, y, destX, destY, vel) parameter "vel" must be a number; got a typeof('+vel+')=='+typeof vel);
+
+		if(vel==undefined) vel=this.vel;
+		else this.vel=vel;
 
 		this.atDest=false;
 		this._dest.x=destX;
