@@ -105,6 +105,7 @@ var Unit_Bullet=function(name) {
 				this._dest[i].x=x+(distance*2)*Math.cos(angle);
 				this._dest[i].y=y+(distance*2)*-Math.sin(angle);
 			}
+			multiPlayData.push([x, y, angle]);
 
 			this.trail[i].face(this._dest[i].x, this._dest[i].y);
 			this.projectile[i].face(this._dest[i].x, this._dest[i].y);
