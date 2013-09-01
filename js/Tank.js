@@ -143,11 +143,17 @@ var Unit_Tank=function(name) {
 	}
 
 	// Fires a projectile from position to destination
-	this.fire=function(destX, destY) {
-		if(typeof destX!='number') throw (this.id+': fire(destX, destY) parameter "destX" must be a number; got a typeof('+destX+')=='+typeof destX);
-		if(typeof destY!='number'&&destY!=undefined) throw (this.id+': fire(destX, destY) parameter "destY" must be a number; got a typeof('+destY+')=='+typeof destY);
+	this.fire=function() {
+		var x=this._siegeMode?this.siegeTurret.x:this.tankTurret.x;
+		var y=this._siegeMode?this.siegeTurret.y:this.tankTurret.y;
+		var angle=this._siegeMode?this.siegeTurret.getAng():this.tankTurret.getAng();
 
-		this.projectile.fire(this.getPos().x, this.getPos().y, destX, destY);
+		var distance=300;
+		var destX=x+distance*Math.cos(angle);
+		var destY=y+distance*-Math.sin(angle);
+
+		this.projectile.fire(x, y, destX, destY);
+
 	}
 
 	// For transformation between the 2 modes

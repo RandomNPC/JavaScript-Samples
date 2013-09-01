@@ -9,6 +9,7 @@ var Unit_Bullet=function(name) {
 
 	this.frozen=false;	// Is it frozen in an ice spell like state?
 
+	this.vel=8;
 	this.atDest=false; // Are we there yet?
 	this._dest={ x: 0, y: 0 }; // Move to
 
@@ -83,7 +84,6 @@ var Unit_Bullet=function(name) {
 		this._dest.x=destX;
 		this._dest.y=destY;
 
-		
 		this.trail.alive=true;
 		this.trail.translate(x, y);
 		this.trail.face(destX, destY);
@@ -114,12 +114,10 @@ var Unit_Bullet=function(name) {
 
 	this._initSprites=function() {
 		this.projectile=new Sprite('nyanCat');
-		this.projectile.midY+=12;
 		this.projectile.setTileSize(64, 64);
 		this.projectile.setFrameTime(2);
 
 		this.trail=new Sprite('rainbow');
-		this.trail.midY+=12;
 		this.trail.setTileSize(64, 64);
 		this.trail.setFrameTime(2);
 	}

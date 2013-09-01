@@ -38,6 +38,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 				tank.changeMode();
 				break;
 			case 32: // Space
+				tank.fire();
 				break;
 		}
 	}
