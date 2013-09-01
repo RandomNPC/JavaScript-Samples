@@ -8,7 +8,7 @@ var Sprite=function(id) {
 	this.x=0;	// Position of the sprite in the world
 	this.y=0;
 	this.vel=1;	// Velocity at which the sprite moves
-	this.angVel=Math.PI/16; // Radians per frame of rotation
+	this.angVel=Math.PI/32; // Radians per frame of rotation
 
 	this.sizeX=128; // Tile horizontal length [default: 128px]
 	this.sizeY=128; // Tile vertical length
@@ -33,7 +33,7 @@ var Sprite=function(id) {
 	this._frame=0;			// < Current frame of an animation
 	this._frameCount=0;	// < Number of frames in an animation
 	this._frameTime=0;
-	this._frameTimeMax=4;
+	this._frameTimeMax=8;
 	this._alt=0;			// < Alternate views [different angles]
 	this._altCount=0;
 	this._angle=0;
@@ -276,6 +276,14 @@ var Sprite=function(id) {
 
 		this._alt=0;
 		this._altCount=Math.floor(this.img.height/this.sizeY);
+	}
+
+	// Sets the time for each frame
+	this.setFrameTime=function(frameTimeMax) {
+		if(typeof frameTimeMax!='number') throw (this.id+': setFrameTime(frameTimeMax) parameter "frameTimeMax" must be a number; got a typeof('+frameTimeMax+')=='+typeof frameTimeMax);
+
+		this._frameTime=0;
+		this._frameTimeMax=frameTimeMax;
 	}
 
 

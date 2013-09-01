@@ -11,6 +11,9 @@ var Unit_Tank=function(name) {
 	this.siegeTurret;
 	this.siegeTurretTrans;
 
+	this.projectile=new Unit_Bullet();
+
+
 	this.alive=true;		// Is this tank not blown up?
 	this.frozen=false;	// Is it frozen in an ice spell like state?
 
@@ -39,6 +42,8 @@ var Unit_Tank=function(name) {
 			this.tankBody.draw(ctx);
 			this.siegeBody.draw(ctx);
 
+			this.projectile.draw(ctx);
+
 			this.siegeTurretTrans.draw(ctx);
 			this.tankTurret.draw(ctx);
 			this.siegeTurret.draw(ctx);
@@ -46,6 +51,8 @@ var Unit_Tank=function(name) {
 			this.siegeBodyTrans.drawAni(ctx);
 			this.tankBody.drawAni(ctx);
 			this.siegeBody.drawAni(ctx);
+
+			this.projectile.drawAni(ctx);
 
 			this.siegeTurretTrans.drawAni(ctx);
 			this.tankTurret.drawAni(ctx);
@@ -133,6 +140,24 @@ var Unit_Tank=function(name) {
 		angle%=Math.PI*2;
 		this.tankTurret.setAng(angle);
 		return targeted;
+	}
+
+	// Fires a projectile from position to destination
+	this.fire=function() {
+		if(this._siegeLock||this.projectile.getAlive()) return;
+
+		var x=this._siegeMode?this.siegeTurret.x:this.tankTurret.x;
+		var y=this._siegeMode?this.siegeTurret.y:this.tankTurret.y;
+		var angle=this._siegeMode?this.siegeTurret.getAng():this.tankTurret.getAng();
+
+		var distance=this._siegeMode?800:200;
+		var vel=this._siegeMode?8:4;
+
+		var destX=x+distance*Math.cos(angle);
+		var destY=y+distance*-Math.sin(angle);
+
+		this.projectile.fire(x, y, destX, destY, vel);
+
 	}
 
 	// For transformation between the 2 modes
@@ -255,7 +280,7 @@ var Unit_Tank=function(name) {
 		this.tankTurret=new Sprite('tankTurret');
 		this.tankTurret.midY+=12; // Changing the midpoint of the picture to be lower
 		this.tankTurret.idle=true;
-		this.tankTurret.angVel=Math.PI/8;
+		this.tankTurret.angVel=Math.PI/16;
 
 		// Sprite for siege tank's body
 		this.siegeBody=new Sprite('siegeBody');
@@ -268,7 +293,7 @@ var Unit_Tank=function(name) {
 
 		// Sprite for the body's transformation 
 		this.siegeBodyTrans=new Sprite('siegeBodyTransform');
-		this.siegeBodyTrans.frameTimeMax=8;
+		this.siegeBodyTrans.frameTimeMax=16;
 		this.siegeBodyTrans.loop=false; // Prevent the animation from looping
 		this.siegeBodyTrans.reverse=true;
 		this.siegeBodyTrans.hide=true;
@@ -276,7 +301,7 @@ var Unit_Tank=function(name) {
 		// Sprite for the turret's transformation
 		this.siegeTurretTrans=new Sprite('siegeTurretTransform');
 		this.siegeTurretTrans.midY+=12;
-		this.siegeTurretTrans.frameTimeMax=8;
+		this.siegeTurretTrans.frameTimeMax=16;
 		this.siegeTurretTrans.loop=false;
 		this.siegeTurretTrans.reverse=true;
 		this.siegeTurretTrans.hide=true;
