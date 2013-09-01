@@ -11,6 +11,9 @@ var Unit_Tank=function(name) {
 	this.siegeTurret;
 	this.siegeTurretTrans;
 
+	this.projectile=new Unit_Bullet();
+
+
 	this.alive=true;		// Is this tank not blown up?
 	this.frozen=false;	// Is it frozen in an ice spell like state?
 
@@ -39,6 +42,8 @@ var Unit_Tank=function(name) {
 			this.tankBody.draw(ctx);
 			this.siegeBody.draw(ctx);
 
+			this.projectile.draw(ctx);
+
 			this.siegeTurretTrans.draw(ctx);
 			this.tankTurret.draw(ctx);
 			this.siegeTurret.draw(ctx);
@@ -46,6 +51,8 @@ var Unit_Tank=function(name) {
 			this.siegeBodyTrans.drawAni(ctx);
 			this.tankBody.drawAni(ctx);
 			this.siegeBody.drawAni(ctx);
+
+			this.projectile.drawAni(ctx);
 
 			this.siegeTurretTrans.drawAni(ctx);
 			this.tankTurret.drawAni(ctx);
@@ -133,6 +140,14 @@ var Unit_Tank=function(name) {
 		angle%=Math.PI*2;
 		this.tankTurret.setAng(angle);
 		return targeted;
+	}
+
+	// Fires a projectile from position to destination
+	this.fire=function(destX, destY) {
+		if(typeof destX!='number') throw (this.id+': fire(destX, destY) parameter "destX" must be a number; got a typeof('+destX+')=='+typeof destX);
+		if(typeof destY!='number'&&destY!=undefined) throw (this.id+': fire(destX, destY) parameter "destY" must be a number; got a typeof('+destY+')=='+typeof destY);
+
+		this.projectile.fire(this.getPos().x, this.getPos().y, destX, destY);
 	}
 
 	// For transformation between the 2 modes
