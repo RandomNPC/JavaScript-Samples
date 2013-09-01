@@ -74,15 +74,18 @@ var Unit_Bullet=function(name) {
 	}
 
 	// Fires a projectile from position to destination
-	this.fire=function(x, y, destX, destY, vel) {
-		if(typeof x!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
-		if(typeof destX!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "destX" must be a number; got a typeof('+destX+')=='+typeof destX);
-		if(typeof destY!='number') throw (this.id+': fire(x, y, destX, destY, vel) parameter "destY" must be a number; got a typeof('+destY+')=='+typeof destY);
-		if(typeof vel!='number'&&vel!=undefined) throw (this.id+': fire(x, y, destX, destY, vel) parameter "vel" must be a number; got a typeof('+vel+')=='+typeof vel);
+	this.fire=function(x, y, angle, distance, vel) {
+		if(typeof x!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
+		if(typeof y!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
+		if(typeof angle!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "angle" must be a number; got a typeof('+angle+')=='+typeof angle);
+		if(typeof distance!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "distance" must be a number; got a typeof('+distance+')=='+typeof distance);
+		if(typeof vel!='number'&&vel!=undefined) throw (this.id+': fire(x, y, angle, distance, vel) parameter "vel" must be a number; got a typeof('+vel+')=='+typeof vel);
 
 		if(vel==undefined) vel=this.vel;
 		else this.vel=vel;
+
+		var destX=x+distance*Math.cos(angle);
+		var destY=y+distance*-Math.sin(angle);
 
 		this.atDest=false;
 		this._dest.x=destX;
