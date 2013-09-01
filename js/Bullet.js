@@ -73,6 +73,8 @@ var Unit_Bullet=function(name) {
 		if(typeof distance!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "distance" must be a number; got a typeof('+distance+')=='+typeof distance);
 		if(typeof vel!='number'&&vel!=undefined) throw (this.id+': fire(x, y, angle, distance, vel) parameter "vel" must be a number; got a typeof('+vel+')=='+typeof vel);
 
+		var multiPlayData=new Array();
+
 		if(vel==undefined) vel=this.vel;
 		else this.vel=vel;
 
@@ -89,6 +91,8 @@ var Unit_Bullet=function(name) {
 
 				this.trail[i].alive=true;
 				this.projectile[i].alive=true;
+
+				multiPlayData.push([distance, vel]);
 			} else {
 				angle=Math.random()*2*Math.PI;
 
@@ -105,6 +109,7 @@ var Unit_Bullet=function(name) {
 			this.trail[i].face(this._dest[i].x, this._dest[i].y);
 			this.projectile[i].face(this._dest[i].x, this._dest[i].y);
 		}
+		return multiPlayData;
 	}
 
 	this.getAlive=function() {

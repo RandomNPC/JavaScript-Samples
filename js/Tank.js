@@ -154,7 +154,7 @@ var Unit_Tank=function(name) {
 		var vel=this._siegeMode?10:4;
 
 		this.projectile.siegeMode=this._siegeMode;
-		this.projectile.fire(x, y, angle, distance, vel);
+		return this.projectile.fire(x, y, angle, distance, vel);
 	}
 
 	// For transformation between the 2 modes
