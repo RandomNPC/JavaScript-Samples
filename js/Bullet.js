@@ -51,28 +51,6 @@ var Unit_Bullet=function(name) {
 		this.tankBody._angle=angle;
 	}
 
-	// Turn the tank
-	this.turn=function(x, y) { // 1 overload
-		if(typeof x!='number') throw (this.id+': turn(x, y) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
-		if(typeof y!='number'&&y!=undefined) throw (this.id+': turn(x, y) parameter "y" must be a number; got a typeof('+y+')=='+typeof y);
-
-		var lastAng=this.tankBody.getAng();
-		var targeted;
-
-		if(y==undefined) { // turn(angle)
-			targeted=this.tankBody.turn(x);
-		} else {
-			targeted=this.tankBody.turn(x, y);
-		}
-
-		var diff=this.tankBody.getAng()-lastAng;
-		var angle=this.tankTurret.getAng()+diff;
-		angle+=Math.PI*2;
-		angle%=Math.PI*2;
-		this.tankTurret.setAng(angle);
-		return targeted;
-	}
-
 	// Fires a projectile from position to destination
 	this.fire=function(x, y, angle, distance, vel) {
 		if(typeof x!='number') throw (this.id+': fire(x, y, angle, distance, vel) parameter "x" must be a number; got a typeof('+x+')=='+typeof x);
