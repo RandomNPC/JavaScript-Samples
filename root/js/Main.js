@@ -51,7 +51,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 				ctx.fillText('Logging In...', 8, 24);
 			}
 		}
-	}, 42);
+	}, 16);
 
 
 	canvas.onmouseup=function() { // On click
@@ -69,6 +69,7 @@ window.onload=function() { // Makes sure the website is loaded before running co
 				tank.changeMode();
 				break;
 			case 32: // Space
+				tank.fire();
 				break;
 		}
 	}
