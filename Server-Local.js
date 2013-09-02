@@ -1,1 +1,1 @@
-var server=require('./Tanks')();
+require('./Tanks')();
