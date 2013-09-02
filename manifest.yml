@@ -1,6 +1,6 @@
 ---
 applications:
--  name: horc-tanks
+-  name: HoRC Tanks
    command: node Server-CF
    memory: 128M
    instances: 1
